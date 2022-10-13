@@ -1,5 +1,7 @@
 import React, { useState, ChangeEvent, KeyboardEvent} from 'react';
+import { AddItemForm } from './AddItemForm';
 import { FilterType } from './App';
+import { Button } from './components/button';
 
 
 export type TasksType = {
@@ -14,23 +16,24 @@ export type ToDoListType = {
     tasks: Array<TasksType>,
     deleteTask: (toDoListId: string, id: string) => void,
     changeFilter: ( toDoListId:string, value: FilterType) => void
-    addTask: (toDoListId: string, newText: string) => void //????
+    addTask: (toDoListId: string, newText: string) => void 
     changeCheckBox:(toDoListId: string, id:string, checked:boolean )=>void//???
     filter:string
     id:string
+    deleteToDoList:(id:string)=>void
 }
 
 
-export function ToDoList({ title, tasks, deleteTask, changeFilter, addTask, changeCheckBox, filter, id }: ToDoListType) {
+export function ToDoList({ title, tasks, deleteTask, changeFilter, addTask, changeCheckBox, filter, id ,deleteToDoList}: ToDoListType) {
 
-
-   
+//вынесли хэндлер за пределы мапа, чтобы не ограничиваться скоупом. Для этого мы в хэндлере передаем в параметре айдишку в пределах мапа, а потом мы передаем в делит таск нужную айдишку таким образом , хоть и за пределами мапа
+    const onDeleteHandler=(idItem:string)=>{
+        deleteTask(id, idItem)
+    }
 //даже те функции которые в обработчиках в методе мап нужно облегчать - пишем прямо в мап функцию, которая будет считываться при нажатии на кнопку
 //задание- зарефакторить кселикс по этому методу
     let mapFunction = tasks.map((el: any) => {
-        const onDeleteHandler=()=>{
-            deleteTask(id, el.id)
-        }
+      
         const onChangeHandler=(e: ChangeEvent<HTMLInputElement>)=>{ 
             changeCheckBox(id, el.id, e.currentTarget.checked);
         }
@@ -40,7 +43,7 @@ export function ToDoList({ title, tasks, deleteTask, changeFilter, addTask, chan
             <input type="checkbox" checked={el.checked} onChange={onChangeHandler}
 />
             <span>{el.task}</span>
-            <button onClick={onDeleteHandler}>x</button>
+            <button onClick={()=>onDeleteHandler(el.id)}>x</button>
             </li>
     })
 
@@ -49,8 +52,6 @@ export function ToDoList({ title, tasks, deleteTask, changeFilter, addTask, chan
     let [err,setErr]=useState('')
 
     //мы не должны писать функции в обработчиках событий, поэтому мы должны их выносить 
-
-    const onChabgeHandlerElement = (e: ChangeEvent<HTMLInputElement>) => { setValue(e.currentTarget.value) }
 
     const plusButton = () => {
         
@@ -61,47 +62,38 @@ export function ToDoList({ title, tasks, deleteTask, changeFilter, addTask, chan
     
        
     }
-
-    const onAllClickHandler=()=>{
-        changeFilter(id,'All')
+    
+    const onClickHandler=(param:FilterType)=>{
+        changeFilter(id, param)
     }
 
-    const onActiveClickHandler=()=>{
-        changeFilter( id, 'Active')
-    }
 
-    const onCompletedClickHandler=()=>{
-        changeFilter(id, 'Completed')
-    }
-  
-   
-        
+   function addTodoList(){
 
-   
-    const onKeyDownHandler= (e: KeyboardEvent<HTMLInputElement>) =>{
-        setErr('')
-        if (e.key === 'Enter') {
-            plusButton()
-        }
-    }
+   }
+//ПОЧЕМУ_ТО НЕ МОГУ ТИПИЗИРОВАТЬ ЭВЕНТ
+   function someFunction(event:any){
+alert(event.currentTarget.name)
+   }
     return (
         <div className="App">
             <div>
                 <h3>{title}</h3>
-                <div>
-                    <input value={value} onChange={onChabgeHandlerElement
-                    } onKeyPress={onKeyDownHandler} className={err&&'erorr'}/>
-                    <button onClick={plusButton}>+</button>
-                </div>
-                {err&& <div className="err">erorr</div>}
+                
+                <AddItemForm addItem={addTask} id={id} deleteToDoList={deleteToDoList} addToDoList={addTodoList} />
+               
                 <ul>
                     {mapFunction}
 
                 </ul>
                 <div>
-                    <button onClick={onAllClickHandler } className={filter==='All'?'active_btn':''}>All</button>
-                    <button className={filter==='Active'?'active_btn':''} onClick={onActiveClickHandler}>Active</button>
-                    <button className={filter==='Completed'?'active_btn':''} onClick={onCompletedClickHandler }>Completed</button>
+                    <button name='delete' onClick={someFunction}>X</button>
+                    <button name='save' onClick={someFunction}>X</button>
+                    <Button className={filter==='All'?'active_btn':''} name='All' callBack={()=>onClickHandler('All') }/>
+
+                    <Button className={filter==='Active'?'active_btn':''} name='Active' callBack={()=>onClickHandler('Active') }/>
+
+                    <Button className={filter==='Completed'?'active_btn':''} name='Completed' callBack={()=>onClickHandler('Completed') }/>
                 </div>
             </div>
         </div>

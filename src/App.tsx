@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { v1 } from 'uuid';
+import { AddItemForm } from './AddItemForm';
 import './App.css';
 import { ToDoList } from './ToDoList';
 
@@ -24,6 +25,7 @@ function App() {
 
 
 
+    //говорим сет туду чтобы фильтр залезал и менял значение  фильтров внутри обхектов
     let [toDoLists, setToDoList] = useState<Array<ToDoListsType>>([
         {
             title: 'what to learn',
@@ -94,21 +96,53 @@ function App() {
                 description: 'something',
                 checked: true,
             },
-            
+
 
         ],
-    
+
 
     }
     )
 
+    function deleteToDoList(id: string) {
+
+        //внимание - здесь легко запупаться, в массиве, который хранит таски и в массиве туду листов, используем тудулисты, так как в первую очередь мы удаляем именно его
+        
+        let filtredToDoLists = toDoLists.filter((el) => { return el.id !== id })
+        
+        setToDoList(filtredToDoLists)
+
+        //нам нет смысла хранить таски для удаленного туду листа
+        delete tasksObj[id]
+        //обязательно вызываем сет, чтобы все поменялось
+        setTasks({...tasksObj})
+
+    }
+
+  
+    function addToDoList(title: string) {
+
+       let newlist={
+        title: title,
+        id:v1(),
+        filter: 'All'
+    }
+
+
+    setTasks({ ...tasksObj, [newlist.id]: [] })
+
+       }
+
+
     function changeCheckBox(toDoListId: string, id: string, checked: boolean) {
 
 
-        setTasks({...tasksObj, [toDoListId]: tasksObj[toDoListId]
-            .map(task => {
-                return task.id === id ? {...task, checked: checked} : task
-            })})
+        setTasks({
+            ...tasksObj, [toDoListId]: tasksObj[toDoListId]
+                .map(task => {
+                    return task.id === id ? { ...task, checked: checked } : task
+                })
+        })
         //let tasks = tasksObj[toDoListId]
         //let task = tasks.find(t => t.id === id)
         //if (task) {
@@ -120,69 +154,71 @@ function App() {
 
         //сокращенный вариант
         // setTasks({...tasksObj, [toDoListId]: tasks})
-  
+
 
     }
 
-    let [filter, setFilter] = useState<FilterType>('Active')
+    //удаляем общий фильр после того как мы разделили фильтры для разныз туду листов. но сетфильтр испольльзовался в чейндж фильтре. Поэтому мы будем там теперь получать айдишку тудулиста и менять фильтр в самом объекте туду листа
+    // let [filter, setFilter] = useState<FilterType>('Active')
 
 
 
-    function addTask(toDoListId: string, newText: string) {
-        let tasks = tasksObj[toDoListId]
+    function addTask( newText: string) {
+        // let tasks = tasksObj[toDoListId]
+
+        let newTask = {
+            task: newText,//.trim(),
+            id: v1(),
+            description: '',
+            checked: false,
+        }
 
 
-        //if (newText.trim() !== '') {
-            let newTask = {
-                task: newText,//.trim(),
-                id: v1(),
-                description: '',
-                checked: false,
-            }
+        setTasks({ ...tasksObj, [v1()]: [newTask, ...tasksObj[v1()]] })
 
-
-            setTasks({...tasksObj, [toDoListId]: [newTask, ...tasksObj[toDoListId]]})
-        //}
 
     }
 
-    function changeFilter( toDoListId: string, value: FilterType) {
+
+    //здесть получаем айдишник туду листа чтобы переписать потом фильтр
+    function changeFilter(toDoListId: string, value: FilterType) {
+        //ищем адишку которую надо удалить
         let toDoList = toDoLists.find((el) => el.id === toDoListId)
         if (toDoList) {
+            //присваеваем текущему фильтру обновленное значение
             toDoList.filter = value;
+            //обманываем что здесь новый массив за счет спред оператора
             setToDoList([...toDoLists])
         }
-        setFilter(value)
     }
-
-    //let tasksForFilter = tasksObj
-
-
 
 
 
     function deleteTask(toDoListId: string, id: string) {
-        let tasks = tasksObj[toDoListId]
-        let filtredTasks = tasks.filter((el) => { return el.id !== id })
-        tasksObj[toDoListId] = filtredTasks
-        setTasks({ ...tasksObj })
+        // let tasks = tasksObj[toDoListId]
+        // let filtredTasks = tasks.filter((el) => { return el.id !== id })
+        // tasksObj[toDoListId] = filtredTasks
+        // setTasks({ ...tasksObj })
 
+setTasks({...tasksObj,[toDoListId]:tasksObj[toDoListId].filter(el=>el.id !== id)})
 
     }
 
 
+
     return (
         <div className="App">
+            <AddItemForm deleteToDoList={deleteToDoList} id='' addItem={addTask} addToDoList={addToDoList}/>
 
             {
                 toDoLists.map((el: any) => {
 
                     let tasksForToDoList = tasksObj[el.id]
-                
-                    
 
 
-                    if (filter === 'Completed') {
+
+
+                    if (el.filter === 'Completed') {
                         //без ретурна!!! присваеваем фильтр
                         tasksForToDoList = tasksForToDoList.filter(
                             el => el.checked === true
@@ -190,7 +226,7 @@ function App() {
                     }
 
 
-                    if (filter === 'Active') {
+                    if (el.filter === 'Active') {
                         tasksForToDoList = tasksForToDoList.filter(
                             el => el.checked === false
                         )
@@ -200,6 +236,7 @@ function App() {
                     return <ToDoList
                         //не забудь добавить кей в мап
                         key={el.id}
+                        //добавляем айди туду листа чтобы фильтр знал в каком именно туду листе будет новый фильтр. Затем мы передаем этот айдишник в хэндлеры кнопок фильтров
                         id={el.id}
                         title={el.title}
                         tasks={tasksForToDoList}
@@ -207,7 +244,8 @@ function App() {
                         changeFilter={changeFilter}
                         addTask={addTask}
                         changeCheckBox={changeCheckBox}
-                        filter={el.filter} />
+                        filter={el.filter}
+                        deleteToDoList={deleteToDoList} />
                 })
             }
 
