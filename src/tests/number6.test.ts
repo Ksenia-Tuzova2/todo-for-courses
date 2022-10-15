@@ -1,23 +1,22 @@
 import { v1 } from 'uuid';
+import { countAllPurchace } from './number6';
 //reduce taste
-type CartType = {
-  
-   { id: string,
-    name: string,
-    price:number, 
-   }
-  price:number
+export type CartType = {
+
+  id: string,
+  name: string,
+  price: number,
 
 }
 
-let cart: CartType
+let cart: Array<CartType>
 
 beforeEach(() => {
   cart = [
     {
       id: v1(),
       name: 'shampoo',
-      price: 100,
+      price: 120,
     },
     {
       id: v1(),
@@ -34,11 +33,11 @@ beforeEach(() => {
       name: 'shampoo',
       price: 100,
     },
-    price:0
+
   ]
+
 })
 // 01. Тесты должны пройти
 test('All things in cart should be counted ', () => {
-  countAllPurchace(cart);
-  expect().toBe(400000);
+  expect(countAllPurchace(cart)).toBe(1020);
 });
