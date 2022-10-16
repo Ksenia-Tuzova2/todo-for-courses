@@ -1,3 +1,4 @@
+import { howMuchLessons, onlyName, pushNewLesson } from "./number7";
 
 export type ManType={
   name:string,
@@ -48,3 +49,17 @@ let l=props.lesson
   //сравниваем равенство двух стррок
   expect(title).toStrictEqual("Nezavisimosti street")
 })
+
+test('test should return only name ',()=>{
+expect(onlyName(props)).toBe('Ksu')
+})
+
+test('test should return how much lessons in data ',()=>{
+  expect(howMuchLessons(props)).toBe(2)
+  })
+
+  test('test should push new lesson ',()=>{
+
+    pushNewLesson(props, 2)
+    expect(props.lesson.length).toBe(3)
+    })
