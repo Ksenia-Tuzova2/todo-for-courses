@@ -107,10 +107,9 @@ function App() {
     function deleteToDoList(id: string) {
 
         //внимание - здесь легко запупаться, в массиве, который хранит таски и в массиве туду листов, используем тудулисты, так как в первую очередь мы удаляем именно его
+
         
-        let filtredToDoLists = toDoLists.filter((el) => { return el.id !== id })
-        
-        setToDoList(filtredToDoLists)
+        setToDoList( toDoLists.filter((el) => { return el.id !== id }))
 
         //нам нет смысла хранить таски для удаленного туду листа
         delete tasksObj[id]
@@ -127,7 +126,6 @@ function App() {
         id:v1(),
         filter: 'All'
     }
-
 
     setTasks({ ...tasksObj, [newlist.id]: [] })
 
@@ -163,7 +161,7 @@ function App() {
 
 
 
-    function addTask( newText: string) {
+    function addTask( toDoListId: string, newText: string) {
         // let tasks = tasksObj[toDoListId]
 
         let newTask = {
@@ -174,7 +172,7 @@ function App() {
         }
 
 
-        setTasks({ ...tasksObj, [v1()]: [newTask, ...tasksObj[v1()]] })
+        setTasks({ ...tasksObj, [toDoListId]: [newTask, ...tasksObj[toDoListId]] })
 
 
     }
@@ -182,7 +180,7 @@ function App() {
 
     //здесть получаем айдишник туду листа чтобы переписать потом фильтр
     function changeFilter(toDoListId: string, value: FilterType) {
-        //ищем адишку которую надо удалить
+        //ищем нужную айдишку туду листа
         let toDoList = toDoLists.find((el) => el.id === toDoListId)
         if (toDoList) {
             //присваеваем текущему фильтру обновленное значение
