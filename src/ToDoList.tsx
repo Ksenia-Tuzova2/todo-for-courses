@@ -1,7 +1,9 @@
+import { Delete } from '@mui/icons-material';
+import IconButton from '@mui/material/IconButton';
 import React, { useState, ChangeEvent, KeyboardEvent} from 'react';
 import { AddItemForm } from './AddItemForm';
 import { FilterType } from './App';
-import { Button } from './components/button';
+import { Button, Checkbox } from '@mui/material';
 
 
 export type TasksType = {
@@ -40,10 +42,13 @@ export function ToDoList({ title, tasks, deleteTask, changeFilter, addTask, chan
         
 
         return <li className={el.checked?'checked':''} key={el.id}>
-            <input type="checkbox" checked={el.checked} onChange={onChangeHandler}
+            <Checkbox checked={el.checked} onChange={onChangeHandler}
 />
             <span>{el.task}</span>
-            <button onClick={()=>onDeleteHandler(el.id)}>x</button>
+           
+            <IconButton aria-label="delete"  onClick={()=>onDeleteHandler(el.id)}>
+        <Delete />
+      </IconButton>
             </li>
     })
 
@@ -87,13 +92,13 @@ alert(event.currentTarget.name)
 
                 </ul>
                 <div>
-                    <button name='delete' onClick={someFunction}>X</button>
-                    <button name='save' onClick={someFunction}>X</button>
-                    <Button className={filter==='All'?'active_btn':''} name='All' callBack={()=>onClickHandler('All') }/>
+                    {/* <button name='delete' onClick={someFunction}>X</button>
+                    <button name='save' onClick={someFunction}>X</button> */}
 
-                    <Button className={filter==='Active'?'active_btn':''} name='Active' callBack={()=>onClickHandler('Active') }/>
-
-                    <Button className={filter==='Completed'?'active_btn':''} name='Completed' callBack={()=>onClickHandler('Completed') }/>
+                <Button color={'secondary'} variant={filter==='All'?'outlined':'text'}  onClick={()=>onClickHandler('All') }>All</Button>
+                    <Button variant={filter==='Active'?'outlined':'text'}   onClick={()=>onClickHandler('Active') }>Active</Button>
+                    <Button  variant={filter==='Completed'?'outlined':'text'}   onClick={()=>onClickHandler('Completed') }>Completed</Button>
+          
                 </div>
             </div>
         </div>

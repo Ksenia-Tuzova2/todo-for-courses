@@ -1,8 +1,18 @@
+import AppBar from '@mui/material/AppBar';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import { Container, padding } from '@mui/system';
 import React, { useState } from 'react';
 import { v1 } from 'uuid';
 import { AddItemForm } from './AddItemForm';
 import './App.css';
+
 import { ToDoList } from './ToDoList';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 
 
 
@@ -207,8 +217,22 @@ setTasks({...tasksObj,[toDoListId]:tasksObj[toDoListId].filter(el=>el.id !== id)
 
     return (
         <div className="App">
-            <AddItemForm deleteToDoList={deleteToDoList} id='' addItem={addTask} addToDoList={addToDoList}/>
-
+            <AppBar position='static'>
+                <Toolbar>
+               <IconButton edge='start' color='inherit' aria-label='menu'>
+                <MenuIcon />
+               </IconButton>
+               <Typography variant='h6'>
+                News
+               </Typography>
+               <Button >Login</Button>
+               </Toolbar>
+            </AppBar>
+            <Container fixed>
+                <Grid container style={{padding:'10px 0px'}} >
+            <AddItemForm  deleteToDoList={deleteToDoList} id='' addItem={addTask} addToDoList={addToDoList}/>
+            </Grid>
+            <Grid container spacing={3}>
             {
                 toDoLists.map((el: any) => {
 
@@ -232,7 +256,9 @@ setTasks({...tasksObj,[toDoListId]:tasksObj[toDoListId].filter(el=>el.id !== id)
                     }
 
 
-                    return <ToDoList
+                    return <Grid item>
+                        <Paper style={{padding:'10px'}} variant="outlined" >
+                    <ToDoList
                         //не забудь добавить кей в мап
                         key={el.id}
                         //добавляем айди туду листа чтобы фильтр знал в каком именно туду листе будет новый фильтр. Затем мы передаем этот айдишник в хэндлеры кнопок фильтров
@@ -245,9 +271,12 @@ setTasks({...tasksObj,[toDoListId]:tasksObj[toDoListId].filter(el=>el.id !== id)
                         changeCheckBox={changeCheckBox}
                         filter={el.filter}
                         deleteToDoList={deleteToDoList} />
+                        </Paper>
+                        </Grid>
                 })
             }
-
+            </Grid>
+</Container>
         </div>
     );
 }
