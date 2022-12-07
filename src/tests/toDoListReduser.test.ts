@@ -1,6 +1,6 @@
 import { v1 } from "uuid"
 import { ToDoListsType } from "../App"
-import { filterActionCreator, toDoListReduser } from "../store/toDoListReduser"
+import { addTodoActionCreator, filterActionCreator, toDoListReduser } from "../store/toDoListReduser"
 
 test('delete todo list', () => {
 
@@ -66,10 +66,7 @@ test('add todolist', () => {
 
 
 
-  const endState: any = toDoListReduser(startState, {
-    type: 'ADD-TODO-LIST',
-    newTitle: newToDoListTitle,
-  })
+  const endState: any = toDoListReduser(startState, addTodoActionCreator(newToDoListTitle))
 
   expect(endState.length).toBe(4)
   expect(endState[3]).not.toBe(undefined)

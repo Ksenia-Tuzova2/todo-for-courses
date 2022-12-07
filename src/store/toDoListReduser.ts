@@ -33,7 +33,7 @@ type FilterActionType = {
 
 type ActionTypes = RemoveActionType | AddActionType | ChangeTitleActionType | FilterActionType
 
-export const filterActionCreator=(id:string,filter:string):FilterActionType=>{
+export const filterActionCreator = (id: string, filter: string): FilterActionType => {
   return {
     type: 'CHANGE-FILTER' as const,
     id: id,
@@ -41,8 +41,31 @@ export const filterActionCreator=(id:string,filter:string):FilterActionType=>{
   }
 }
 
+export const removeActionCreator = (id: string): RemoveActionType => {
+  return {
+    type: 'REMOVE-TODO-LIST' as const,
+    id: id,
+  }
+}
+
+export const addTodoActionCreator = ( newTitle: string,): AddActionType => {
+  return {
+    type: 'ADD-TODO-LIST' as const,
+    newTitle: newTitle,
+  }
+}
+
+export const changeTitleActionCreator = (newTitle: string, id: string): ChangeTitleActionType => {
+  return {
+    type: 'CHANGE-TITLE' as const,
+    newTitle: newTitle,
+    id: id
+  }
+}
+
 //но так как редюсер должен быть иммутабельной функцией - не изменять то, что приходит, а делать копию и изменять ее, то мы должны создать копию
-export const toDoListReduser = (state: Array<StateType>, action: ActionTypes):Array<StateType> => {
+//важно писать после скобок с аргументами двоеточие и тип того, что должен вернуть редьюсер - ведь это иммутабельная функция, а значит, что мы должны вернуть ту же структуру, что получили
+export const toDoListReduser = (state: Array<StateType>, action: ActionTypes): Array<StateType> => {
   switch (action.type) {
     case ('REMOVE-TODO-LIST'):
       return state.filter(el => el.id !== action.id);
