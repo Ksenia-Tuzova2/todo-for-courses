@@ -17,6 +17,7 @@ type RemoveActionType = {
 type AddActionType = {
   type: 'ADD-TODO-LIST',
   newTitle: string,
+  id: string
 }
 
 type ChangeTitleActionType = {
@@ -48,10 +49,11 @@ export const removeActionCreator = (id: string): RemoveActionType => {
   }
 }
 
-export const addTodoActionCreator = ( newTitle: string,): AddActionType => {
+export const addTodoActionCreator = ( newTitle: string): AddActionType => {
   return {
     type: 'ADD-TODO-LIST' as const,
     newTitle: newTitle,
+    id: v1(),
   }
 }
 

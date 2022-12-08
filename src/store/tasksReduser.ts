@@ -1,7 +1,5 @@
 import { act } from "@testing-library/react"
 import { v1 } from "uuid"
-import { FilterType } from "../App"
-import { ToDoListType } from "../ToDoList"
 import { TasksListsType } from "./tasksReduser.test"
 
 export type StateType = {
@@ -36,8 +34,20 @@ type changeTaskTitleActionType = {
   newName: string
 }
 
+type addNewListActionType = {
+  type: 'ADD-TODO-LIST',
+  newTitle: string,
+  id: string
+}
 
-type ActionTypes = RemoveActionType | addTaskActionType|changeFilterActionType |changeTaskTitleActionType
+type deleteListActionType = {
+  type:  'DELETE-LIST',
+  toDoId: string
+}
+
+
+
+type ActionTypes = RemoveActionType | addTaskActionType|changeFilterActionType |changeTaskTitleActionType|addNewListActionType|deleteListActionType
 
 
 export const removeTaskActionCreator = (toDoId: string, taskId: string): RemoveActionType => {
@@ -74,6 +84,20 @@ export const changeTaskTitleActionCreator = (newName:string, toDoId: string,task
 }
 }
 
+// export const addNewListActionCreator = (newTitle: string): addNewListActionType => {
+//   return {
+//     type: 'ADD-TODO-LIST' as const,
+//     newTitle: newTitle,
+//     id: v1(),
+// }
+// }
+
+export const deleteListActionCreator = ( toDoId: string): deleteListActionType => {
+  return {
+    type: 'DELETE-LIST' as const,
+    toDoId: toDoId,
+}
+}
 
 //но так как редюсер должен быть иммутабельной функцией - не изменять то, что приходит, а делать копию и изменять ее, то мы должны создать копию
 //важно писать после скобок с аргументами двоеточие и тип того, что должен вернуть редьюсер - ведь это иммутабельная функция, а значит, что мы должны вернуть ту же структуру, что получили
@@ -108,6 +132,15 @@ export const tasksReducer = (state: TasksListsType, action: ActionTypes): TasksL
                 return task.id === action.taskId ? { ...task, task:action.newName } : task
             })
     }
+    case ('ADD-TODO-LIST'):
+      const copyState={...state}
+      copyState[action.id]=[]
+      return copyState
+
+      case ('DELETE-LIST'):
+      let copyState2={...state}
+      delete copyState2[action.toDoId]
+        return copyState2
     default:
       throw new Error('I dont understand the action type')
   }
