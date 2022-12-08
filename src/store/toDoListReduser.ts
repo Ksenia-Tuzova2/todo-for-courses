@@ -75,7 +75,7 @@ export const toDoListReduser = (state: Array<StateType>, action: ActionTypes): A
     case ('ADD-TODO-LIST'):
       return [...state, {
         title: action.newTitle,
-        id: v1(),
+        id: action.id,
         filter: 'All'
       }]
 
