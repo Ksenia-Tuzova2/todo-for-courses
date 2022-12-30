@@ -57,23 +57,7 @@ export function toDoListContainer({
                 }
 
 
-                return <Grid item>
-                    <Paper style={{ padding: '10px' }} variant="outlined" >
-                        <ToDoList
-                            //не забудь добавить кей в мап
-                            key={el.id}
-                            //добавляем айди туду листа чтобы фильтр знал в каком именно туду листе будет новый фильтр. Затем мы передаем этот айдишник в хэндлеры кнопок фильтров
-                            id={el.id}
-                            title={el.title}
-                            tasks={tasksForToDoList}
-                            deleteTask={deleteTask}
-                            changeFilter={changeFilter}
-                            addTask={addTask}
-                            changeCheckBox={changeCheckBox}
-                            filter={el.filter}
-                            deleteToDoList={deleteToDoList} />
-                    </Paper>
-                </Grid>
+                return
             })
         }
 
