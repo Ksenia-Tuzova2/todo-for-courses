@@ -5,12 +5,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Container, padding } from '@mui/system';
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { v1 } from 'uuid';
 import { AddItemForm } from './AddItemForm';
 import './App.css';
 
-import { ToDoList } from './ToDoList';
+import { ToDoList } from './components/toDoList/ToDoList';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 
@@ -118,28 +118,28 @@ function App() {
 
         //внимание - здесь легко запупаться, в массиве, который хранит таски и в массиве туду листов, используем тудулисты, так как в первую очередь мы удаляем именно его
 
-        
-        setToDoList( toDoLists.filter((el) => { return el.id !== id }))
+
+        setToDoList(toDoLists.filter((el) => { return el.id !== id }))
 
         //нам нет смысла хранить таски для удаленного туду листа
         delete tasksObj[id]
         //обязательно вызываем сет, чтобы все поменялось
-        setTasks({...tasksObj})
+        setTasks({ ...tasksObj })
 
     }
 
-  
+
     function addToDoList(title: string) {
 
-       let newlist={
-        title: title,
-        id:v1(),
-        filter: 'All'
+        let newlist: ToDoListsType = {
+            title: title,
+            id: v1(),
+            filter: 'All'
+        }
+
+        setToDoList([newlist, ...toDoLists])
+
     }
-
-    setTasks({ ...tasksObj, [newlist.id]: [] })
-
-       }
 
 
     function changeCheckBox(toDoListId: string, id: string, checked: boolean) {
@@ -151,17 +151,6 @@ function App() {
                     return task.id === id ? { ...task, checked: checked } : task
                 })
         })
-        //let tasks = tasksObj[toDoListId]
-        //let task = tasks.find(t => t.id === id)
-        //if (task) {
-        //    task.checked = checked;
-        //}
-        //создаем видимость того, что здесь лежит что-то новое
-        // let copy=[...tasks]
-        // setTasks(copy)
-
-        //сокращенный вариант
-        // setTasks({...tasksObj, [toDoListId]: tasks})
 
 
     }
@@ -171,7 +160,7 @@ function App() {
 
 
 
-    function addTask( toDoListId: string, newText: string) {
+    function addTask(toDoListId: string, newText: string) {
         // let tasks = tasksObj[toDoListId]
 
         let newTask = {
@@ -188,7 +177,6 @@ function App() {
     }
 
 
-    //здесть получаем айдишник туду листа чтобы переписать потом фильтр
     function changeFilter(toDoListId: string, value: FilterType) {
         //ищем нужную айдишку туду листа
         let toDoList = toDoLists.find((el) => el.id === toDoListId)
@@ -203,15 +191,6 @@ function App() {
 
 
 
-    function deleteTask(toDoListId: string, id: string) {
-        // let tasks = tasksObj[toDoListId]
-        // let filtredTasks = tasks.filter((el) => { return el.id !== id })
-        // tasksObj[toDoListId] = filtredTasks
-        // setTasks({ ...tasksObj })
-
-setTasks({...tasksObj,[toDoListId]:tasksObj[toDoListId].filter(el=>el.id !== id)})
-
-    }
 
 
 
@@ -219,64 +198,23 @@ setTasks({...tasksObj,[toDoListId]:tasksObj[toDoListId].filter(el=>el.id !== id)
         <div className="App">
             <AppBar position='static'>
                 <Toolbar>
-               <IconButton edge='start' color='inherit' aria-label='menu'>
-                <MenuIcon />
-               </IconButton>
-               <Typography variant='h6'>
-                News
-               </Typography>
-               <Button >Login</Button>
-               </Toolbar>
+                    <IconButton edge='start' color='inherit' aria-label='menu'>
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant='h6'>
+                        News
+                    </Typography>
+                    <Button >Login</Button>
+                </Toolbar>
             </AppBar>
             <Container fixed>
-                <Grid container style={{padding:'10px 0px'}} >
-            <AddItemForm  deleteToDoList={deleteToDoList} id='' addItem={addTask} addToDoList={addToDoList}/>
-            </Grid>
-            <Grid container spacing={3}>
-            {
-                toDoLists.map((el: any) => {
-
-                    let tasksForToDoList = tasksObj[el.id]
-
-
-
-
-                    if (el.filter === 'Completed') {
-                        //без ретурна!!! присваеваем фильтр
-                        tasksForToDoList = tasksForToDoList.filter(
-                            el => el.checked === true
-                        )
-                    }
-
-
-                    if (el.filter === 'Active') {
-                        tasksForToDoList = tasksForToDoList.filter(
-                            el => el.checked === false
-                        )
-                    }
-
-
-                    return <Grid item>
-                        <Paper style={{padding:'10px'}} variant="outlined" >
-                    <ToDoList
-                        //не забудь добавить кей в мап
-                        key={el.id}
-                        //добавляем айди туду листа чтобы фильтр знал в каком именно туду листе будет новый фильтр. Затем мы передаем этот айдишник в хэндлеры кнопок фильтров
-                        id={el.id}
-                        title={el.title}
-                        tasks={tasksForToDoList}
-                        deleteTask={deleteTask}
-                        changeFilter={changeFilter}
-                        addTask={addTask}
-                        changeCheckBox={changeCheckBox}
-                        filter={el.filter}
-                        deleteToDoList={deleteToDoList} />
-                        </Paper>
-                        </Grid>
-                })
-            }
-            </Grid>
-</Container>
+                <Grid container style={{ padding: '10px 0px' }} >
+                    <AddItemForm deleteItem={deleteToDoList} addItem={addToDoList} />
+                </Grid>
+                <Grid container spacing={3}>
+                    
+                </Grid>
+            </Container>
         </div>
     );
 }

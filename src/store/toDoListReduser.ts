@@ -1,6 +1,6 @@
 import { v1 } from "uuid"
 import { FilterType } from "../App"
-import { ToDoListType } from "../ToDoList"
+import { ToDoListType } from "../components/toDoList/ToDoList"
 
 export type StateType = {
   title: string,
