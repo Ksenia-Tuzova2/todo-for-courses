@@ -27,7 +27,7 @@ export type ToDoListType = {
 }
 
 
-export function toDoListContainer({
+export function ToDoListContainer({
     title,
     tasks,
     deleteTask,

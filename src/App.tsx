@@ -13,6 +13,7 @@ import './App.css';
 import { ToDoList } from './components/toDoList/ToDoList';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import { ToDoListContainer } from './components/toDoList/toDoListContainer';
 
 
 
@@ -53,9 +54,6 @@ function App() {
             filter: 'All'
         },
     ])
-
-
-
 
     let [tasksObj, setTasks] = useState({
         [toDoListId1]: [
@@ -209,10 +207,16 @@ function App() {
             </AppBar>
             <Container fixed>
                 <Grid container style={{ padding: '10px 0px' }} >
-                    <AddItemForm deleteItem={deleteToDoList} addItem={addToDoList} />
+                    <AddItemForm  addItem={addToDoList} />
                 </Grid>
                 <Grid container spacing={3}>
-                    
+                    <ToDoListContainer
+                        deleteTask={}
+                         changeFilter={ changeFilter}
+                          addTask={ } 
+                          changeCheckBox={changeCheckBox} 
+                           deleteToDoList={deleteToDoList}
+                           />
                 </Grid>
             </Container>
         </div>
