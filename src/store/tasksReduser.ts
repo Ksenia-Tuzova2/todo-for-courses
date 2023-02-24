@@ -1,81 +1,87 @@
-import { act } from "@testing-library/react"
 import { v1 } from "uuid"
+import { TasksType } from "../components/toDoList/ToDoList"
 import { TasksListsType } from "./tasksReduser.test"
+import { toDoListId1, toDoListId2 } from "./toDoListReduser"
 
 export type StateType = {
-  [key: string]: TasksListsType
+  [key: string]: TasksType[]
 }
 
 
-type RemoveActionType = {
-  type: 'REMOVE-TASK',
-  toDoId: string,
-  taskId: string
-}
-
-type addTaskActionType = {
-  type: 'ADD-TASK',
-  toDoId: string
-  newTitle: string,
-}
-
-type changeFilterActionType = {
-  type: 'CHANGE-FILTER',
+let initialState={
  
-  toDoId: string,
-  taskId: string,
-  newFilter: boolean
-}
-type changeTaskTitleActionType = {
-  type: 'CHANGE-TASK-TITLE',
- 
-  toDoId: string,
-  taskId: string,
-  newName: string
-}
+      [toDoListId1]: [
+          {
+              task: 'js',
+              id: v1(),
+              description: 'something',
+              checked: true,
+          },
+          {
+              task: 'sccs',
+              id: v1(),
+              description: 'something',
+              checked: true,
+          },
+          {
+              task: 'html',
+              id: v1(),
+              description: 'something',
+              checked: false,
+          },
+      ], 
+      [toDoListId2]: [
+        {
+            task: 'js',
+            id: v1(),
+            description: 'something',
+            checked: true,
+        },
+        {
+            task: 'sccs',
+            id: v1(),
+            description: 'something',
+            checked: true,
+        },
+        {
+            task: 'html',
+            id: v1(),
+            description: 'something',
+            checked: false,
+        },
+    ]
+    }
 
-type addNewListActionType = {
-  type: 'ADD-TODO-LIST',
-  newTitle: string,
-  id: string
-}
 
-type deleteListActionType = {
-  type:  'DELETE-LIST',
-  toDoId: string
-}
+type ActionTypes = ReturnType<typeof deleteListActionCreator>|ReturnType<typeof removeTaskActionCreator>|ReturnType<typeof addTaskActionCreator>|ReturnType<typeof changeFilterActionCreator>|ReturnType<typeof changeFilterActionCreator>|ReturnType<typeof changeTaskTitleActionCreator>
 
 
-
-type ActionTypes = RemoveActionType | addTaskActionType|changeFilterActionType |changeTaskTitleActionType|addNewListActionType|deleteListActionType
-
-
-export const removeTaskActionCreator = (toDoId: string, taskId: string): RemoveActionType => {
+export const removeTaskActionCreator = (toDoId: string, taskId: string) => {
   return {
     type: 'REMOVE-TASK' as const,
     toDoId: toDoId,
     taskId: taskId
-  }
+  } as const
 }
 
-export const addTaskActionCreator = (newTitle: string, toDoId: string): addTaskActionType => {
+export const addTaskActionCreator = (newTitle: string, toDoId: string)=> {
   return {
     type: 'ADD-TASK' as const,
     newTitle: newTitle,
     toDoId: toDoId,
-  }
+  } as const
 }
 
-export const changeFilterActionCreator = (newFilter: boolean, toDoId: string,taskId: string): changeFilterActionType => {
+export const changeFilterActionCreator = (newFilter: boolean, toDoId: string,taskId: string)=> {
   return {
     type: 'CHANGE-FILTER' as const,
     toDoId: toDoId,
     taskId: taskId,
     newFilter:newFilter
-  }
+  }as const
 }
 
-export const changeTaskTitleActionCreator = (newName:string, toDoId: string,taskId: string): changeTaskTitleActionType => {
+export const changeTaskTitleActionCreator = (newName:string, toDoId: string,taskId: string)  => {
   return {
     type: 'CHANGE-TASK-TITLE' as const,
     toDoId: toDoId,
@@ -84,24 +90,19 @@ export const changeTaskTitleActionCreator = (newName:string, toDoId: string,task
 }
 }
 
-// export const addNewListActionCreator = (newTitle: string): addNewListActionType => {
-//   return {
-//     type: 'ADD-TODO-LIST' as const,
-//     newTitle: newTitle,
-//     id: v1(),
-// }
-// }
 
-export const deleteListActionCreator = ( toDoId: string): deleteListActionType => {
+
+export const deleteListActionCreator = ( toDoId: string)=> {
   return {
     type: 'DELETE-LIST' as const,
     toDoId: toDoId,
-}
+} as const
 }
 
 //но так как редюсер должен быть иммутабельной функцией - не изменять то, что приходит, а делать копию и изменять ее, то мы должны создать копию
 //важно писать после скобок с аргументами двоеточие и тип того, что должен вернуть редьюсер - ведь это иммутабельная функция, а значит, что мы должны вернуть ту же структуру, что получили
-export const tasksReducer = (state: TasksListsType, action: ActionTypes): TasksListsType => {
+
+export  const tasksReducer = (state: StateType=initialState, action: ActionTypes): StateType => {
   switch (action.type) {
     case ('REMOVE-TASK'):
       let stateCopy = { ...state }
@@ -132,16 +133,11 @@ export const tasksReducer = (state: TasksListsType, action: ActionTypes): TasksL
                 return task.id === action.taskId ? { ...task, task:action.newName } : task
             })
     }
-    case ('ADD-TODO-LIST'):
-      const copyState={...state}
-      copyState[action.id]=[]
-      return copyState
-
       case ('DELETE-LIST'):
       let copyState2={...state}
       delete copyState2[action.toDoId]
         return copyState2
     default:
-      throw new Error('I dont understand the action type')
+      return state
   }
 }

@@ -4,11 +4,12 @@ import {  Checkbox } from '@mui/material';
 import { ChangeEvent } from 'react';
 
 
-export type ToDoListType = {
+export type taskType = {
     checked:boolean,
     task:string,
     onChangeHandler:(e: ChangeEvent<HTMLInputElement>)=>void,
-    onDeleteHandler:()=>void,
+    onDeleteHandler:(idItem: string)=>void,
+    id:string,
 }
 
 
@@ -16,8 +17,9 @@ export function TaskItem({
     checked,
     task,
     onChangeHandler,
-    onDeleteHandler
- }: ToDoListType) {
+    onDeleteHandler,
+    id
+ }: taskType) {
 
 
 
@@ -28,7 +30,7 @@ export function TaskItem({
                 onChange={onChangeHandler}
             />
             <span>{task}</span>
-            <IconButton aria-label="delete" onClick={() => onDeleteHandler()}>
+            <IconButton aria-label="delete" onClick={() => onDeleteHandler(id)}>
                 <Delete />
             </IconButton>
         </li>)

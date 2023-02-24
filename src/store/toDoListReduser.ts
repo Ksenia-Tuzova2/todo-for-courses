@@ -1,6 +1,4 @@
 import { v1 } from "uuid"
-import { FilterType } from "../App"
-import { ToDoListType } from "../components/toDoList/ToDoList"
 
 export type StateType = {
   title: string,
@@ -8,66 +6,60 @@ export type StateType = {
   filter: string
 }
 
+export let toDoListId1 = v1()
+export let toDoListId2 = v1()
 
-type RemoveActionType = {
-  type: 'REMOVE-TODO-LIST',
-  id: string,
-}
 
-type AddActionType = {
-  type: 'ADD-TODO-LIST',
-  newTitle: string,
-  id: string
-}
 
-type ChangeTitleActionType = {
-  type: 'CHANGE-TITLE',
-  newTitle: string,
-  id: string
-}
 
-type FilterActionType = {
-  type: 'CHANGE-FILTER',
-  filter: string,
-  id: string
-}
+let inititialState=[
+  { title: 'js',
+    id: toDoListId1,
+    filter: 'all'
+  },
+  { title: 'js',
+    id: toDoListId2,
+    filter: 'all'
+  }
+]
 
-type ActionTypes = RemoveActionType | AddActionType | ChangeTitleActionType | FilterActionType
+type ActionTypes = ReturnType<typeof filterActionCreator>|ReturnType<typeof removeActionCreator>|ReturnType<typeof addTodoActionCreator>|ReturnType<typeof changeTitleActionCreator>
 
-export const filterActionCreator = (id: string, filter: string): FilterActionType => {
+
+export const filterActionCreator = (id: string, filter: string)=> {
   return {
     type: 'CHANGE-FILTER' as const,
     id: id,
     filter: filter,
-  }
+  } as const
 }
 
-export const removeActionCreator = (id: string): RemoveActionType => {
+export const removeActionCreator = (id: string) => {
   return {
     type: 'REMOVE-TODO-LIST' as const,
     id: id,
-  }
+  } as const
 }
 
-export const addTodoActionCreator = ( newTitle: string): AddActionType => {
+export const addTodoActionCreator = ( newTitle: string)=> {
   return {
     type: 'ADD-TODO-LIST' as const,
     newTitle: newTitle,
     id: v1(),
-  }
+  } as const
 }
 
-export const changeTitleActionCreator = (newTitle: string, id: string): ChangeTitleActionType => {
+export const changeTitleActionCreator = (newTitle: string, id: string) => {
   return {
     type: 'CHANGE-TITLE' as const,
     newTitle: newTitle,
     id: id
-  }
+  } as const
 }
 
 //но так как редюсер должен быть иммутабельной функцией - не изменять то, что приходит, а делать копию и изменять ее, то мы должны создать копию
 //важно писать после скобок с аргументами двоеточие и тип того, что должен вернуть редьюсер - ведь это иммутабельная функция, а значит, что мы должны вернуть ту же структуру, что получили
-export const toDoListReduser = (state: Array<StateType>, action: ActionTypes): Array<StateType> => {
+export const toDoListReduser = (state: Array<StateType>=inititialState, action: ActionTypes): Array<StateType> => {
   switch (action.type) {
     case ('REMOVE-TODO-LIST'):
       return state.filter(el => el.id !== action.id);
@@ -99,6 +91,6 @@ export const toDoListReduser = (state: Array<StateType>, action: ActionTypes): A
 
 
     default:
-      throw new Error('I dont understand the action type')
+      return state
   }
 }

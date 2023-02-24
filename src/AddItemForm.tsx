@@ -5,28 +5,18 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 type NewType = {
-    deleteItem: () => void;
     addItem: (title: string) => void
 };
 
 export type AddItemFormType = NewType
 
 
-export function AddItemForm({ addItem,  deleteItem }: AddItemFormType) {
+export function AddItemForm({ addItem}: AddItemFormType) {
 
 
     let [value, setValue] = useState('')
 
     let [err, setErr] = useState('')
-
-
-    // const onChabgeHandlerElement = (e: ChangeEvent<HTMLInputElement>) => { setValue(e.currentTarget.value) }
-
-
-
-    const onDeleteListClickHandler = () => {
-        deleteItem()
-    }
 
 
 
@@ -62,10 +52,7 @@ export function AddItemForm({ addItem,  deleteItem }: AddItemFormType) {
                 <IconButton onClick={() => plusButton()}>
                     <AddCircleIcon />
                 </IconButton>
-                <Button
-                    onClick={onDeleteListClickHandler}
-                    startIcon={<DeleteIcon />}>
-                </Button>
+        
             </div>
         </div>
     );
