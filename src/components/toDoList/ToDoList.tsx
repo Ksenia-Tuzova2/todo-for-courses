@@ -1,10 +1,12 @@
 import { Delete } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
 import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
-import { AddItemForm } from '../../AddItemForm';
+import { AddItemForm } from '../AddItemForm';
 import { FilterType } from '../../App';
 import { Button, Checkbox } from '@mui/material';
 import { TaskItem } from '../taskItem/taskItem';
+import { useSelector } from 'react-redux';
+import { Rootstate } from '../../store/redux-store';
 
 
 export type TasksType = {
@@ -37,6 +39,9 @@ export function ToDoList({
     filter,
     id,
     deleteToDoList }: ToDoListType) {
+
+       
+
 
     //вынесли хэндлер за пределы мапа, чтобы не ограничиваться скоупом. Для этого мы в хэндлере передаем в параметре айдишку в пределах мапа, а потом мы передаем в делит таск нужную айдишку таким образом , хоть и за пределами мапа
     const onDeleteHandler = (idItem: string) => {
