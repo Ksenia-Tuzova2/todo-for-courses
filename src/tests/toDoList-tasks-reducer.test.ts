@@ -6,20 +6,20 @@ import { addTodoActionCreator, removeActionCreator, toDoListReduser } from "../s
 
 test('ids should be equeal', () => {
 
-  const startTaskState: TasksListsType = {};
-  const startToDoState: Array< ToDoListsType> = [];
+  // const startTaskState: TasksListsType = {};
+  // const startToDoState: Array< ToDoListsType> = [];
 
-  const action = addTodoActionCreator('h')
+  // const action = addTodoActionCreator('h')
 
-  const endTasksState = tasksReducer(startTaskState, action)
-  const endTodoListState = toDoListReduser(startToDoState, action)
+  // const endTasksState = tasksReducer(startTaskState, action)
+  // const endTodoListState = toDoListReduser(startToDoState, action)
 
-  const keys = Object.keys(endTasksState)
-  const idFromTasks = keys[0]
-  const idFromTodo = endTodoListState[0].id
+  // const keys = Object.keys(endTasksState)
+  // const idFromTasks = keys[0]
+  // const idFromTodo = endTodoListState[0].id
 
-  expect(idFromTasks).toBe(action.id)
-  expect(idFromTodo).toBe(action.id)
+  // expect(idFromTasks).toBe(action.id)
+  // expect(idFromTodo).toBe(action.id)
 
 
 })

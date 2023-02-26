@@ -19,7 +19,7 @@ export type ToDoListType = {
     tasks: Array<TasksType>,
     deleteTask: (toDoListId: string, id: string) => void,
     changeFilter: (toDoListId: string, value: FilterType) => void
-    addTask: (toDoListId: string, newText: string) => void
+    addTask: (title: string) => void
     changeCheckBox: (toDoListId: string, id: string, checked: boolean) => void//???
     filter: string
     id: string
@@ -67,7 +67,8 @@ export function ToDoList({
                 checked={el.checked}
                 task={el.task}
                 onChangeHandler={onChangeHandler}
-                onDeleteHandler={onDeleteHandler} />
+                onDeleteHandler={onDeleteHandler}
+                 id={el.id} />
         </div>
     })
 
@@ -79,15 +80,14 @@ export function ToDoList({
             <div>
                 <h3>{title}</h3>
 
-                <AddItemForm id={id} deleteToDoList={deleteToDoList} addItem={addTask} />
+                <AddItemForm addItem={addTask} />
 
                 <ul>
                     {mapFunction}
 
                 </ul>
                 <div>
-                    {/* <button name='delete' onClick={someFunction}>X</button>
-                    <button name='save' onClick={someFunction}>X</button> */}
+                   
 
                     <Button color={'secondary'} variant={filter === 'All' ? 'outlined' : 'text'} onClick={() => onClickHandler('All')}>All</Button>
                     <Button variant={filter === 'Active' ? 'outlined' : 'text'} onClick={() => onClickHandler('Active')}>Active</Button>

@@ -1,6 +1,6 @@
 import { v1 } from "uuid"
 import { ToDoListsType } from "../App"
-import { addTaskActionCreator, changeFilterActionCreator, changeTaskTitleActionCreator, removeTaskActionCreator, tasksReducer } from "./tasksReduser"
+import { addTaskAC, changeFilterActionCreator, changeTaskTitleActionCreator, removeTaskActionCreator, tasksReducer } from "./tasksReduser"
 
 export type FilterType = 'All' | 'Active' | 'Completed'
 
@@ -119,7 +119,7 @@ test('new task should be added for correct array',()=>{
     ],
   }
 
-  const action= addTaskActionCreator('jucie',toDoListId1 )
+  const action= addTaskAC('jucie',toDoListId1 )
 const endState=tasksReducer(startState,action)
 
 expect(endState[toDoListId1].length).toBe(2)
