@@ -8,11 +8,9 @@ import { Container, padding } from '@mui/system';
 import { AddItemForm } from './components/AddItemForm';
 import './App.css';
 import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import { v1 } from 'uuid';
-import { useAppDispatch, useAppSelector } from './store/redux-store';
-import { addTodoActionCreator } from './store/toDoListReduser';
-import { ToDoList } from './components/toDoList/ToDoList';
+import { useAppDispatch } from './store/redux-store';
+import { addTodoAC } from './store/toDoListReduser';
+import { ToDoListMap } from './components/toDoList/ToDoListMap';
 
 export type FilterType = 'All' | 'Active' | 'Completed'
     
@@ -28,20 +26,11 @@ function App() {
 
     const dispatch = useAppDispatch();
 
-    const todoList = useAppSelector((state) => state.toDoListReduser)
-
-    const tasks = useAppSelector((state) => state.tasksReducer)
-   
     function addToDoList(title: string) {
-    
-        dispatch(addTodoActionCreator(title))
-    
+        dispatch(addTodoAC(title))
     }
     
-    console.log(todoList);
 
-    console.log(tasks);
-    
     
 
     return (
@@ -62,7 +51,7 @@ function App() {
                     <AddItemForm  addItem={addToDoList} />
                 </Grid>
                 <Grid container spacing={3}>
-                   
+                   <ToDoListMap/>
                 </Grid>
             </Container>
         </div>

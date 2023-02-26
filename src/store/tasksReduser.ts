@@ -60,10 +60,10 @@ let initialState={
     }
 
 
-type ActionTypes = ReturnType<typeof deleteListActionCreator>|ReturnType<typeof removeTaskActionCreator>|ReturnType<typeof addTaskAC>|ReturnType<typeof changeFilterActionCreator>|ReturnType<typeof changeFilterActionCreator>|ReturnType<typeof changeTaskTitleActionCreator>
+type ActionTypes = ReturnType<typeof deleteListAC>|ReturnType<typeof removeTaskAC>|ReturnType<typeof addTaskAC>|ReturnType<typeof changeChecBoxAC>|ReturnType<typeof changeTaskTitleAC>
 
 
-export const removeTaskActionCreator = (toDoId: string, taskId: string) => {
+export const removeTaskAC = (toDoId: string, taskId: string) => {
   return {
     type: 'REMOVE-TASK' as const,
     toDoId: toDoId,
@@ -75,7 +75,7 @@ export const removeTaskRequest=(toDoId: string, taskId: string):ThunkAction<void
   return function (dispatch:any):void{
     taskApi.deleteTaskRequest(toDoId, taskId).then((data:any)=>{
       if (data.resultCode===0){
-        dispatch(removeTaskActionCreator(toDoId, taskId))
+        dispatch(removeTaskAC(toDoId, taskId))
       }
     })
   }
@@ -102,9 +102,9 @@ export const addTaskRequest=(title:string, todoId:any):ThunkAction<void, {},{},a
 
 
 
-export const changeFilterActionCreator = (newFilter: boolean, toDoId: string,taskId: string)=> {
+export const changeChecBoxAC = (newFilter: boolean, toDoId: string,taskId: string)=> {
   return {
-    type: 'CHANGE-FILTER' as const,
+    type: 'CHANGE-CHECKBOX' as const,
     toDoId: toDoId,
     taskId: taskId,
     newFilter:newFilter
@@ -113,7 +113,7 @@ export const changeFilterActionCreator = (newFilter: boolean, toDoId: string,tas
 
 
 
-export const changeTaskTitleActionCreator = (newName:string, toDoId: string,taskId: string)  => {
+export const changeTaskTitleAC = (newName:string, toDoId: string,taskId: string)  => {
   return {
     type: 'CHANGE-TASK-TITLE' as const,
     toDoId: toDoId,
@@ -128,7 +128,7 @@ export const changeTaskTitleActionCreator = (newName:string, toDoId: string,task
 // }
 // }
 
-export const deleteListActionCreator = ( toDoId: string)=> {
+export const deleteListAC = ( toDoId: string)=> {
   return {
     type: 'DELETE-LIST' as const,
     toDoId: toDoId,
@@ -159,7 +159,7 @@ export  const tasksReducer = (state: StateType=initialState, action: ActionTypes
         checked: false,
       }
       return { ...state, [action.toDoId]: [newTask, ...state[action.toDoId]] }
-    case ('CHANGE-FILTER'):
+    case ('CHANGE-CHECKBOX'):
    let newValue= !action.newFilter
   
       return {

@@ -5,8 +5,10 @@ import { AddItemForm } from '../AddItemForm';
 import { FilterType } from '../../App';
 import { Button, Checkbox } from '@mui/material';
 import { TaskItem } from '../taskItem/taskItem';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Rootstate } from '../../store/redux-store';
+import { addTaskAC, changeChecBoxAC, removeTaskAC } from '../../store/tasksReduser';
+import { changeFilterAc } from '../../store/toDoListReduser';
 
 
 export type TasksType = {
@@ -17,53 +19,48 @@ export type TasksType = {
 }
 
 export type ToDoListType = {
+    tasks: Array<any>,
     title: string,
-    tasks: Array<TasksType>,
-    deleteTask: (toDoListId: string, id: string) => void,
-    changeFilter: (toDoListId: string, value: FilterType) => void
-    addTask: (title: string) => void
-    changeCheckBox: (toDoListId: string, id: string, checked: boolean) => void//???
     filter: string
-    id: string
+    todoId: string
     deleteToDoList: (id: string) => void
 }
 
 
 export function ToDoList({
-    title,
     tasks,
-    deleteTask,
-    changeFilter,
-    addTask,
-    changeCheckBox,
+    title,
     filter,
-    id,
+    todoId,
     deleteToDoList }: ToDoListType) {
 
-       
+        let dispatch=useDispatch()
 
+
+    
+    
 
     //вынесли хэндлер за пределы мапа, чтобы не ограничиваться скоупом. Для этого мы в хэндлере передаем в параметре айдишку в пределах мапа, а потом мы передаем в делит таск нужную айдишку таким образом , хоть и за пределами мапа
-    const onDeleteHandler = (idItem: string) => {
-        deleteTask(id, idItem)
+    const onDeleteTaskHandler = (idItem: string) => {
+        dispatch(removeTaskAC(todoId, idItem))
     }
     //даже те функции которые в обработчиках в методе мап нужно облегчать - пишем прямо в мап функцию, которая будет считываться при нажатии на кнопку
     //задание- зарефакторить кселикс по этому методу
 
-
-    const onClickHandler = (param: FilterType) => {
-        changeFilter(id, param)
-    }
-
   
+
+    const changeFilter = ( param: FilterType) => {
+        dispatch( changeFilterAc(todoId, param))
+     }
+
 
 
     let mapFunction = tasks.map((el: TasksType) => {
 
        
 
-        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            changeCheckBox(id, el.id, e.currentTarget.checked);
+        const changeCheckBoxHandler = (e: ChangeEvent<HTMLInputElement>) => {
+           dispatch (changeChecBoxAC( e.currentTarget.checked, todoId, el.id,))
         }
 
 
@@ -71,13 +68,18 @@ export function ToDoList({
             <TaskItem
                 checked={el.checked}
                 task={el.task}
-                onChangeHandler={onChangeHandler}
-                onDeleteHandler={onDeleteHandler}
+                onChangeHandler={changeCheckBoxHandler}
+                onDeleteHandler={onDeleteTaskHandler}
                  id={el.id} />
         </div>
     })
 
 
+
+const addTask=(taskTitle:string)=>{
+    //не понимаю как выудить тайтл таски для ац
+    dispatch(addTaskAC(taskTitle,todoId))
+}
 
 
     return (
@@ -94,9 +96,9 @@ export function ToDoList({
                 <div>
                    
 
-                    <Button color={'secondary'} variant={filter === 'All' ? 'outlined' : 'text'} onClick={() => onClickHandler('All')}>All</Button>
-                    <Button variant={filter === 'Active' ? 'outlined' : 'text'} onClick={() => onClickHandler('Active')}>Active</Button>
-                    <Button variant={filter === 'Completed' ? 'outlined' : 'text'} onClick={() => onClickHandler('Completed')}>Completed</Button>
+                    <Button color={'secondary'} variant={filter === 'All' ? 'outlined' : 'text'} onClick={() => changeFilter('All')}>All</Button>
+                    <Button variant={filter === 'Active' ? 'outlined' : 'text'} onClick={() => changeFilter('Active')}>Active</Button>
+                    <Button variant={filter === 'Completed' ? 'outlined' : 'text'} onClick={() => changeFilter('Completed')}>Completed</Button>
 
                 </div>
             </div>

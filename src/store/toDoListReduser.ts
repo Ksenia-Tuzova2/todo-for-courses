@@ -23,10 +23,10 @@ let inititialState=[
   }
 ]
 
-type ActionTypes = ReturnType<typeof filterActionCreator>|ReturnType<typeof removeActionCreator>|ReturnType<typeof addTodoActionCreator>|ReturnType<typeof changeTitleActionCreator>
+type ActionTypes = ReturnType<typeof changeFilterAc>|ReturnType<typeof removeTodoAC>|ReturnType<typeof addTodoAC>|ReturnType<typeof changeTodoTitleAC>
 
 
-export const filterActionCreator = (id: string, filter: string)=> {
+export const changeFilterAc = (id: string, filter: string)=> {
   return {
     type: 'CHANGE-FILTER' as const,
     id: id,
@@ -34,14 +34,14 @@ export const filterActionCreator = (id: string, filter: string)=> {
   } as const
 }
 
-export const removeActionCreator = (id: string) => {
+export const removeTodoAC = (id: string) => {
   return {
     type: 'REMOVE-TODO-LIST' as const,
     id: id,
   } as const
 }
 
-export const addTodoActionCreator = ( newTitle: string)=> {
+export const addTodoAC = ( newTitle: string)=> {
   return {
     type: 'ADD-TODO-LIST' as const,
     newTitle: newTitle,
@@ -49,7 +49,7 @@ export const addTodoActionCreator = ( newTitle: string)=> {
   } as const
 }
 
-export const changeTitleActionCreator = (newTitle: string, id: string) => {
+export const changeTodoTitleAC = (newTitle: string, id: string) => {
   return {
     type: 'CHANGE-TITLE' as const,
     newTitle: newTitle,
