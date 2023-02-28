@@ -15,16 +15,23 @@ export const taskApi = {
     
     getTaskRequest(page:number, count:number) {
         return instance.get(`/auth/me?page:${page};count:${count}`,
-        //   {
-        //    headers:{ "API-KEY":'c999ab7d-e835-4c75-be15-733c12'
-        //   }}
+          {
+           headers:{ "API-KEY":'c999ab7d-e835-4c75-be15-733c12'
+          }}
         ).then((Response) => { return (Response.data) })
     },
-    putTaskRequest(todolistId:any,taskId:any) {
+    putTaskRequest(todolistId:any,taskId:any, title:string) {
         return instance.put(`/todo-lists/${todolistId}/tasks/${taskId}`,
-        //   {
-        //    headers:{ "API-KEY":'c999ab7d-e835-4c75-be15-733c12'
-        //   }}
+          {
+           headers:{ "API-KEY":'c999ab7d-e835-4c75-be15-733c12'
+          },
+          title:title,
+          description:' ',
+          completed: false,
+          status: 0,
+          priority: 0,
+          startDate: '02.03.2022',
+          deadline:'02.03.2022'}
 
         ).then((Response) => { return (Response.data) })
     },

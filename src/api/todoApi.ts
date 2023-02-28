@@ -16,12 +16,12 @@ export const todoApi = {
             { title: title })
         ).then((Response) => { return (Response.data) })
     },
-    putTodoRequest(todolistId: any, title: string) {
+    putTodoRequest(todolistId: string, title: string) {
         return (instance.put(`/todo-lists/${todolistId}`,
             { title: title })
         ).then((Response) => { return (Response.data) })
     },
-    deleteTodoRequest(todolistId: any, title: string) {
+    deleteTodoRequest(todolistId: string) {
         return (instance.delete(`/todo-lists/${todolistId}`)
         ).then((Response) => { return (Response.data) })
     },

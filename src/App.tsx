@@ -8,13 +8,15 @@ import { Container, padding } from '@mui/system';
 import { AddItemForm } from './components/AddItemForm';
 import './App.css';
 import Grid from '@mui/material/Grid';
-import { useAppDispatch } from './store/redux-store';
-import { addTodoAC } from './store/toDoListReduser';
+import { UseAppDispatch } from './store/redux-store';
+import { addTodoRequest } from './store/toDoListReduser';
 import { ToDoListMap } from './components/toDoList/ToDoListMap';
+import { useEffect } from 'react';
+import { authUserDataRequest } from './store/authReduser';
 
 export type FilterType = 'All' | 'Active' | 'Completed'
-    
-    
+
+
 export type ToDoListsType = {
     title: string,
     id: string,
@@ -24,15 +26,16 @@ export type ToDoListsType = {
 
 function App() {
 
-    const dispatch = useAppDispatch();
+    const dispatch = UseAppDispatch();
 
     function addToDoList(title: string) {
-        dispatch(addTodoAC(title))
+        dispatch(addTodoRequest(title))
     }
-    
 
-    
-
+    useEffect(() => {
+        dispatch(authUserDataRequest())
+      },[])
+      
     return (
         <div className="App">
             <AppBar position='static'>
@@ -48,10 +51,10 @@ function App() {
             </AppBar>
             <Container fixed>
                 <Grid container style={{ padding: '10px 0px' }} >
-                    <AddItemForm  addItem={addToDoList} />
+                    <AddItemForm addItem={addToDoList} />
                 </Grid>
                 <Grid container spacing={3}>
-                   <ToDoListMap/>
+                    <ToDoListMap />
                 </Grid>
             </Container>
         </div>

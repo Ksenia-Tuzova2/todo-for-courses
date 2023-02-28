@@ -5,10 +5,9 @@ import { AddItemForm } from '../AddItemForm';
 import { FilterType } from '../../App';
 import { Button, Checkbox } from '@mui/material';
 import { TaskItem } from '../taskItem/taskItem';
-import { useDispatch, useSelector } from 'react-redux';
-import { Rootstate } from '../../store/redux-store';
+import {  UseAppDispatch } from '../../store/redux-store';
 import { addTaskAC, changeChecBoxAC, removeTaskAC } from '../../store/tasksReduser';
-import { changeFilterAc } from '../../store/toDoListReduser';
+import { changeFilterAc, removeTodoRequest } from '../../store/toDoListReduser';
 
 
 export type TasksType = {
@@ -23,7 +22,6 @@ export type ToDoListType = {
     title: string,
     filter: string
     todoId: string
-    deleteToDoList: (id: string) => void
 }
 
 
@@ -31,13 +29,14 @@ export function ToDoList({
     tasks,
     title,
     filter,
-    todoId,
-    deleteToDoList }: ToDoListType) {
+    todoId}: ToDoListType) {
 
-        let dispatch=useDispatch()
+        let dispatch=UseAppDispatch()
 
 
-    
+        const onDeleteTodoHandler = (idItem: string) => {
+            dispatch(removeTodoRequest(idItem))
+        }
     
 
     //вынесли хэндлер за пределы мапа, чтобы не ограничиваться скоупом. Для этого мы в хэндлере передаем в параметре айдишку в пределах мапа, а потом мы передаем в делит таск нужную айдишку таким образом , хоть и за пределами мапа
@@ -52,7 +51,6 @@ export function ToDoList({
     const changeFilter = ( param: FilterType) => {
         dispatch( changeFilterAc(todoId, param))
      }
-
 
 
     let mapFunction = tasks.map((el: TasksType) => {
@@ -86,16 +84,12 @@ const addTask=(taskTitle:string)=>{
         <div className="App">
             <div>
                 <h3>{title}</h3>
-
                 <AddItemForm addItem={addTask} />
-
+               <Delete onClick={()=>onDeleteTodoHandler(todoId)}/>
                 <ul>
                     {mapFunction}
-
                 </ul>
                 <div>
-                   
-
                     <Button color={'secondary'} variant={filter === 'All' ? 'outlined' : 'text'} onClick={() => changeFilter('All')}>All</Button>
                     <Button variant={filter === 'Active' ? 'outlined' : 'text'} onClick={() => changeFilter('Active')}>Active</Button>
                     <Button variant={filter === 'Completed' ? 'outlined' : 'text'} onClick={() => changeFilter('Completed')}>Completed</Button>

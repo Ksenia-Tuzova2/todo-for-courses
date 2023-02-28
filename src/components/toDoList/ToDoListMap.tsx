@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Rootstate } from '../../store/redux-store';
-import { ToDoList, ToDoListType } from './ToDoList';
+import { ToDoList} from './ToDoList';
 import { useDispatch } from 'react-redux';
 import {  removeTodoAC } from '../../store/toDoListReduser';
 
@@ -15,12 +15,9 @@ export function ToDoListMap() {
     const tasks = useSelector<Rootstate, any>((state) => state.tasksReducer as any)
 
 
-    let dispatch = useDispatch()
 
     //вынесли хэндлер за пределы мапа, чтобы не ограничиваться скоупом. Для этого мы в хэндлере передаем в параметре айдишку в пределах мапа, а потом мы передаем в делит таск нужную айдишку таким образом , хоть и за пределами мапа
-    const onDeleteTodoHandler = (idItem: string) => {
-        dispatch(removeTodoAC(idItem))
-    }
+   
 
 
     let mapFunction = todoArray.map((el: any) => {
@@ -29,7 +26,7 @@ export function ToDoListMap() {
             title={el.title}
             filter={el.filter}
             todoId={el.id}
-            deleteToDoList={onDeleteTodoHandler} />
+         />
         )
     })
 

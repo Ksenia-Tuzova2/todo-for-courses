@@ -26,7 +26,7 @@ export type AppDispatch = typeof store.dispatch;
 //если в местах с контейнерными компонентами используем мапдиспатч ту пропс
 //который автоматом оборачивает функцию диспатчем, то в определенных местах 
 //нам нужно такой апп диспатч
-export const useAppDispatch=()=>useDispatch<any>();
+export const UseAppDispatch=()=>useDispatch<any>();
 
 
 export const useAppSelector: TypedUseSelectorHook<Rootstate> = useSelector
