@@ -11,9 +11,9 @@ type NewType = {
 export type AddItemFormType = NewType
 
 
-export function AddItemForm({ addItem}: AddItemFormType) {
+export const AddItemForm=React.memo(({ addItem}: AddItemFormType)=> {
 
-
+    console.log('form  rerender');
     let [value, setValue] = useState('')
 
     let [err, setErr] = useState('')
@@ -44,16 +44,17 @@ export function AddItemForm({ addItem}: AddItemFormType) {
                 <TextField id="outlined-size-small"
                     error={!!err}
                     helperText={err}
-                    defaultValue="Small"
                     size="small" label='type something'
                     value={value}
                     onChange={onChabgeHandlerElement
                     } />
-                <IconButton onClick={() => plusButton()}>
-                    <AddCircleIcon />
+                <IconButton onClick={plusButton}
+                onKeyDown={()=>onKeyDownHandler}>
+                    <AddCircleIcon   />
                 </IconButton>
         
             </div>
         </div>
     );
 }
+)

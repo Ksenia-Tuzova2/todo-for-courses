@@ -1,103 +1,97 @@
 import { Delete } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
-import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
+import {  ChangeEvent, KeyboardEvent, useCallback } from 'react';
 import { AddItemForm } from '../AddItemForm';
 import { FilterType } from '../../App';
-import { Button, Checkbox } from '@mui/material';
+import { Button} from '@mui/material';
 import { TaskItem } from '../taskItem/taskItem';
-import {  UseAppDispatch } from '../../store/redux-store';
-import { addTaskAC, changeChecBoxAC, removeTaskAC } from '../../store/tasksReduser';
+import { UseAppDispatch } from '../../store/redux-store';
+import { addTaskAC, changeChecBoxAC, removeTaskRequest,TasksType } from '../../store/tasksReduser';
 import { changeFilterAc, removeTodoRequest } from '../../store/toDoListReduser';
-
-
-export type TasksType = {
-    task: string,
-    id: string,
-    description: string,
-    checked: boolean,
-}
+import s from './todo.module.css';
+import React from 'react';
+import { Filter } from './filter';
 
 export type ToDoListType = {
     tasks: Array<any>,
     title: string,
-    filter: string
+    filter: FilterType,
     todoId: string
 }
 
 
-export function ToDoList({
+export const ToDoList=React.memo(({
     tasks,
     title,
     filter,
-    todoId}: ToDoListType) {
+    todoId }: ToDoListType)=> {
 
-        let dispatch=UseAppDispatch()
+    let dispatch = UseAppDispatch()
 
 
-        const onDeleteTodoHandler = (idItem: string) => {
-            dispatch(removeTodoRequest(idItem))
-        }
-    
+
+    const onDeleteTodoHandler = useCallback(function(todoId: string){
+        dispatch(removeTodoRequest(todoId))
+        // dispatch(removeTasksRequest(todoId))
+    },[dispatch])
+
 
     //вынесли хэндлер за пределы мапа, чтобы не ограничиваться скоупом. Для этого мы в хэндлере передаем в параметре айдишку в пределах мапа, а потом мы передаем в делит таск нужную айдишку таким образом , хоть и за пределами мапа
-    const onDeleteTaskHandler = (idItem: string) => {
-        dispatch(removeTaskAC(todoId, idItem))
-    }
+    const onDeleteTaskHandler = useCallback(()=>function(idItem: string){
+        dispatch(removeTaskRequest(todoId, idItem))
+    },[dispatch])
     //даже те функции которые в обработчиках в методе мап нужно облегчать - пишем прямо в мап функцию, которая будет считываться при нажатии на кнопку
     //задание- зарефакторить кселикс по этому методу
 
-  
-
-    const changeFilter = ( param: FilterType) => {
-        dispatch( changeFilterAc(todoId, param))
-     }
 
 
     let mapFunction = tasks.map((el: TasksType) => {
 
-       
-
-        const changeCheckBoxHandler = (e: ChangeEvent<HTMLInputElement>) => {
-           dispatch (changeChecBoxAC( e.currentTarget.checked, todoId, el.id,))
-        }
-
+        console.log('tasks  rerender');
+        
+  
 
         return <div key={el.id}>
             <TaskItem
-                checked={el.checked}
-                task={el.task}
-                onChangeHandler={changeCheckBoxHandler}
+                description={el.description}
+                status={el.status}
+                priority={el.priority}
+                deadline={el.deadline}
+                todoListId={el.todoListId}
+                order={el.order}
+                addedDate={el.addedDate}
+                startDate={el.startDate}
+                completed={el.completed}
+                title={el.title}
                 onDeleteHandler={onDeleteTaskHandler}
-                 id={el.id} />
+                id={el.id} />
         </div>
     })
 
 
 
-const addTask=(taskTitle:string)=>{
-    //не понимаю как выудить тайтл таски для ац
-    dispatch(addTaskAC(taskTitle,todoId))
-}
+    const addTaskHandler = useCallback(()=>function(taskTitle: string){
+        dispatch(addTaskAC(taskTitle, todoId))
+    },[dispatch])
 
 
     return (
         <div className="App">
             <div>
                 <h3>{title}</h3>
-                <AddItemForm addItem={addTask} />
-               <Delete onClick={()=>onDeleteTodoHandler(todoId)}/>
+                <div className={s.flexCointainer}>
+                <AddItemForm addItem={addTaskHandler} />
+                <Delete onClick={() => onDeleteTodoHandler(todoId)} />
+                </div>
                 <ul>
                     {mapFunction}
                 </ul>
-                <div>
-                    <Button color={'secondary'} variant={filter === 'All' ? 'outlined' : 'text'} onClick={() => changeFilter('All')}>All</Button>
-                    <Button variant={filter === 'Active' ? 'outlined' : 'text'} onClick={() => changeFilter('Active')}>Active</Button>
-                    <Button variant={filter === 'Completed' ? 'outlined' : 'text'} onClick={() => changeFilter('Completed')}>Completed</Button>
-
-                </div>
+               <Filter 
+               filter={filter} 
+               todoId={todoId} />
             </div>
         </div>
     );
-}
+})
 
 

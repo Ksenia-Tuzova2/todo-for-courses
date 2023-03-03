@@ -10,7 +10,6 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 const reducersPack=combineReducers({
     tasksReducer:tasksReducer,
     toDoListReduser: toDoListReduser,
-
 })
 
 export type Rootstate=ReturnType<typeof reducersPack>
@@ -21,11 +20,7 @@ export const dispatch=store.dispatch
 
 export type AppDispatch = typeof store.dispatch;
 
-//делаем юзаппдиспатч, чтобы была возможность прокидывать 
-//через диспатч санку, которая затем уже делает запрос 
-//если в местах с контейнерными компонентами используем мапдиспатч ту пропс
-//который автоматом оборачивает функцию диспатчем, то в определенных местах 
-//нам нужно такой апп диспатч
+//диспатч для санок- юзаем в хэндлерах, где надо использовать санки
 export const UseAppDispatch=()=>useDispatch<any>();
 
 

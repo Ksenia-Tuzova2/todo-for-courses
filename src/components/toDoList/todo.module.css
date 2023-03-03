@@ -1,0 +1,14 @@
+.flexCointainer {
+    margin-top: 20px;
+    display: flex;
+    align-items: start;
+    justify-content: flex-start;
+}
+
+.innerTodoContainer {
+    padding: 10px 30px;
+}
+
+.outTodoContainer {
+    margin: 10px;
+}

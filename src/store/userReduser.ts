@@ -22,7 +22,7 @@ export const userReduser = (state: StateType, action: ActionType) => {
         return {...state, children:state.children+1};
         case ('CHANGE-NAME'):
           return {...state, name:state.name='Ksenia'};
-        default: 
-        throw new Error('I dont understand the action type')
+        default: state
+        // throw new Error('I dont understand the action type')
   }
 }

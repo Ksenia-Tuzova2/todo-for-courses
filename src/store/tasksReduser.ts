@@ -1,10 +1,24 @@
 import { ThunkAction } from "redux-thunk"
 import { v1 } from "uuid"
 import { taskApi } from "../api/tasksApi"
-import { TasksType } from "../components/toDoList/ToDoList"
 import { toDoListId1, toDoListId2 } from "./toDoListReduser"
 
-export type StateType = {
+export type TasksType = {
+  id: string,
+  description: string,
+  title: string,
+  completed: boolean,
+  status: number,
+  priority: number,
+  startDate: string,
+  deadline: string,
+  todoListId: string,
+  order: number,
+  addedDate: string,
+}
+
+
+export type StateTasksType = {
   [key: string]: TasksType[]
 }
 
@@ -15,58 +29,99 @@ export type DataType = {
 }
 
 
-
 let initialState = {
   [toDoListId1]: [
     {
-      task: 'js',
+      title: 'js',
       id: v1(),
       description: 'something',
-      checked: true,
+      completed: true,
+      status: 0,
+      priority: 0,
+      startDate: "2019-07-30T12:24:15.063",
+      deadline: "2019-07-30T12:24:15.063",
+      todoListId: toDoListId1,
+      order: 0,
+      addedDate: "2019-07-30T12:24:15.063",
     },
     {
-      task: 'sccs',
+      title: 'sccs',
       id: v1(),
       description: 'something',
-      checked: true,
+      completed: true,
+      status: 0,
+      priority: 0,
+      startDate: "2019-07-30T12:24:15.063",
+      deadline: "2019-07-30T12:24:15.063",
+      todoListId: toDoListId1,
+      order: 0,
+      addedDate: "2019-07-30T12:24:15.063",
     },
     {
-      task: 'html',
+      title: 'html',
       id: v1(),
       description: 'something',
-      checked: false,
+      completed: false,
+      status: 0,
+      priority: 0,
+      startDate: "2019-07-30T12:24:15.063",
+      deadline: "2019-07-30T12:24:15.063",
+      todoListId: toDoListId1,
+      order: 0,
+      addedDate: "2019-07-30T12:24:15.063",
     },
   ],
   [toDoListId2]: [
     {
-      task: 'js',
+      title: 'html',
       id: v1(),
       description: 'something',
-      checked: true,
+      completed: false,
+      status: 0,
+      priority: 0,
+      startDate: "2019-07-30T12:24:15.063",
+      deadline: "2019-07-30T12:24:15.063",
+      todoListId: toDoListId2,
+      order: 0,
+      addedDate: "2019-07-30T12:24:15.063",
     },
     {
-      task: 'sccs',
+      title: 'html',
       id: v1(),
       description: 'something',
-      checked: true,
+      completed: false,
+      status: 0,
+      priority: 0,
+      startDate: "2019-07-30T12:24:15.063",
+      deadline: "2019-07-30T12:24:15.063",
+      todoListId: toDoListId2,
+      order: 0,
+      addedDate: "2019-07-30T12:24:15.063",
     },
     {
-      task: 'html',
+      title: 'html',
       id: v1(),
       description: 'something',
-      checked: false,
+      completed: false,
+      status: 0,
+      priority: 0,
+      startDate: "2019-07-30T12:24:15.063",
+      deadline: "2019-07-30T12:24:15.063",
+      todoListId: toDoListId2,
+      order: 0,
+      addedDate: "2019-07-30T12:24:15.063",
     },
   ]
 }
 
 
-type ActionTypes = ReturnType<typeof deleteListAC> | ReturnType<typeof removeTaskAC> | ReturnType<typeof addTaskAC> | ReturnType<typeof changeChecBoxAC> | ReturnType<typeof changeTaskTitleAC>|ReturnType<typeof setTasks>
+type ActionTypes = ReturnType<typeof deleteListAC> | ReturnType<typeof removeTaskAC> | ReturnType<typeof addTaskAC> | ReturnType<typeof changeChecBoxAC> | ReturnType<typeof changeTaskTitleAC> | ReturnType<typeof setTasks>
 
-export const setTasks=(data:any)=>{
-  return{
+export const setTasks = (data: any) => {
+  return {
     type: 'SET_TASKS',
-    data:data
-  } as const 
+    data: data
+  } as const
 }
 
 
@@ -87,6 +142,14 @@ export const removeTaskRequest = (toDoId: string, taskId: string): ThunkAction<v
     })
   }
 }
+
+//просто удаления достаточно?
+
+// export const removeTasksRequest=(toDoId: string):ThunkAction<void, {},{},any>=>{
+//   return function (dispatch:any):void{
+//     //дописать
+//   }
+// }
 
 
 export const addTaskAC = (newTitle: string, toDoId: string) => {
@@ -110,6 +173,7 @@ export const addTaskRequest = (title: string, todoId: any): ThunkAction<void, {}
 
 
 export const changeChecBoxAC = (newFilter: boolean, toDoId: string, taskId: string) => {
+  
   return {
     type: 'CHANGE-CHECKBOX' as const,
     toDoId: toDoId,
@@ -129,15 +193,15 @@ export const changeTaskTitleAC = (newName: string, toDoId: string, taskId: strin
   }
 }
 
-export const changeTaskTitleRequest=(toDoId: string,taskId: string,newName:string):ThunkAction<void, {},{},any>=>{
-return function (dispatch:any){
- taskApi.putTaskRequest(toDoId, taskId, newName).then((data:any)=>{
-  
-  //зачем нужна проверка на резалт код ноль, если зен не выполнится все равно,если резалт код будет другой?
-  //или дата придет в любом случае, просто там будет резалт код не ноль и это сойдет за дату?
-  dispatch(changeTaskTitleAC(toDoId, taskId, newName))
- })
-}
+export const changeTaskTitleRequest = (toDoId: string, taskId: string, newName: string): ThunkAction<void, {}, {}, any> => {
+  return function (dispatch: any) {
+    taskApi.putTaskRequest(toDoId, taskId, newName).then((data: any) => {
+
+      //зачем нужна проверка на резалт код ноль, если зен не выполнится все равно,если резалт код будет другой?
+      //или дата придет в любом случае, просто там будет резалт код не ноль и это сойдет за дату?
+      dispatch(changeTaskTitleAC(toDoId, taskId, newName))
+    })
+  }
 }
 
 export const deleteListAC = (toDoId: string) => {
@@ -154,11 +218,11 @@ export const deleteListAC = (toDoId: string) => {
 //но так как редюсер должен быть иммутабельной функцией - не изменять то, что приходит, а делать копию и изменять ее, то мы должны создать копию
 //важно писать после скобок с аргументами двоеточие и тип того, что должен вернуть редьюсер - ведь это иммутабельная функция, а значит, что мы должны вернуть ту же структуру, что получили
 
-export const tasksReducer = (state: StateType = initialState, action: ActionTypes): StateType => {
+export const tasksReducer = (state: StateTasksType = initialState, action: ActionTypes): StateTasksType => {
   switch (action.type) {
     case ('SET_TASKS'):
       //надо сделать надстройку над стейтом? 
-      return {...state, state:action.data}
+      return { ...state, state: action.data }
     case ('REMOVE-TASK'):
       let stateCopy = { ...state }
       let tasks = stateCopy[action.toDoId]
@@ -168,24 +232,31 @@ export const tasksReducer = (state: StateType = initialState, action: ActionType
 
     case ('ADD-TASK'):
       let newTask = {
-        task: action.newTitle,
+        title: action.newTitle,
         id: v1(),
         description: 'something',
-        checked: false,
+        completed: false,
+        status: 0,
+        priority: 0,
+        startDate: "2019-07-30T12:24:15.063",
+        deadline: "2019-07-30T12:24:15.063",
+        todoListId: action.toDoId,
+        order: 0,
+        addedDate: "2019-07-30T12:24:15.063",
       }
-      return { ...state, [action.toDoId]: [newTask, ...state[action.toDoId]] }
+      return { ...state, [action.toDoId]: [newTask, 
+        ...state[action.toDoId]] }
     case ('CHANGE-CHECKBOX'):
-      let newValue = !action.newFilter
-
-      return {
+      
+       return {
         ...state, [action.toDoId]: state[action.toDoId].map(task => {
-          return task.id === action.taskId ? { ...task, checked: newValue } : task
+          return task.id === action.taskId ? { ...task, completed: action.newFilter } : task
         })
       }
     case ('CHANGE-TASK-TITLE'):
       return {
         ...state, [action.toDoId]: state[action.toDoId].map(task => {
-          return task.id === action.taskId ? { ...task, task: action.newName } : task
+          return task.id === action.taskId ? { ...task, title: action.newName } : task
         })
       }
     case ('DELETE-LIST'):

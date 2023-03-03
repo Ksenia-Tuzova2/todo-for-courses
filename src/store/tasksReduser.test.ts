@@ -13,7 +13,7 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //   task: string,
 //   id:string,
 //   description: string,
-//   checked: boolean,
+//   completed: boolean,
 // }
 
 
@@ -32,19 +32,19 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //         task: 'js',
 //         id: v1(),
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //       {
 //         task: 'sccs',
 //         id: v1(),
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //       {
 //         task: 'html',
 //         id: v1(),
 //         description: 'something',
-//         checked: false,
+//         completed: false,
 //       },
 //     ],
 //     [toDoListId2]: [
@@ -52,13 +52,13 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //         task: 'books',
 //         id: taskId ,
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //       {
 //         task: 'magazines',
 //         id: v1(),
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //     ],
 //     [toDoListId3]: [
@@ -66,13 +66,13 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //         task: 'food',
 //         id: v1(),
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //       {
 //         task: 'bakery',
 //         id: v1(),
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //     ],
 //   }
@@ -100,7 +100,7 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //         task: 'js',
 //         id: v1(),
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //     ],
 //     [toDoListId2]: [
@@ -108,13 +108,13 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //         task: 'books',
 //         id: v1() ,
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //       {
 //         task: 'magazines',
 //         id: v1(),
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //     ],
 //   }
@@ -124,7 +124,7 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 
 // expect(endState[toDoListId1].length).toBe(2)
 // expect(endState[toDoListId2].length).toBe(2)
-// expect(endState[toDoListId1][0].checked).toBe(false)
+// expect(endState[toDoListId1][0].completed).toBe(false)
 // expect(endState[toDoListId1][0].task).toBe('jucie')
 // })
 
@@ -143,7 +143,7 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //         task: 'js',
 //         id: v1(),
 //         description: 'something',
-//         checked: false,
+//         completed: false,
 //       },
 //     ],
 //     [toDoListId2]: [
@@ -151,21 +151,21 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //         task: 'books',
 //         id: v1() ,
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //       {
 //         task: 'magazines',
 //         id: v1(),
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //     ],
 //   }
 
-//   const action= changeFilterAC( startState[toDoListId1][0].checked,toDoListId1 , startState[toDoListId1][0].id )
+//   const action= changeFilterAC( startState[toDoListId1][0].completed,toDoListId1 , startState[toDoListId1][0].id )
 // const endState=tasksReducer(startState,action)
 
-// expect(endState[toDoListId1][0].checked).toBeTruthy()
+// expect(endState[toDoListId1][0].completed).toBeTruthy()
 
 // })
 
@@ -182,7 +182,7 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //         task: 'js',
 //         id: v1(),
 //         description: 'something',
-//         checked: false,
+//         completed: false,
 //       },
 //     ],
 //     [toDoListId2]: [
@@ -190,13 +190,13 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //         task: 'books',
 //         id: v1() ,
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //       {
 //         task: 'magazines',
 //         id: v1(),
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //     ],
 //   }
@@ -221,7 +221,7 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //         task: 'js',
 //         id: v1(),
 //         description: 'something',
-//         checked: false,
+//         completed: false,
 //       },
 //     ],
 //     [toDoListId2]: [
@@ -229,13 +229,13 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 //         task: 'books',
 //         id: v1() ,
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //       {
 //         task: 'magazines',
 //         id: v1(),
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //     ],
 //   }

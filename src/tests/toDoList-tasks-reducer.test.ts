@@ -34,7 +34,7 @@
 //         task: 'js',
 //         id: v1(),
 //         description: 'something',
-//         checked: false,
+//         completed: false,
 //       },
 //     ],
 //     [toDoListId2]: [
@@ -42,13 +42,13 @@
 //         task: 'books',
 //         id: v1() ,
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //       {
 //         task: 'magazines',
 //         id: v1(),
 //         description: 'something',
-//         checked: true,
+//         completed: true,
 //       },
 //     ],
 //   };
