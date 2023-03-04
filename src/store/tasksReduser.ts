@@ -1,6 +1,7 @@
 import { ThunkAction } from "redux-thunk"
 import { v1 } from "uuid"
 import { taskApi } from "../api/tasksApi"
+import { FilterType } from "../App"
 import { toDoListId1, toDoListId2 } from "./toDoListReduser"
 
 export type TasksType = {
@@ -115,7 +116,7 @@ let initialState = {
 }
 
 
-type ActionTypes = ReturnType<typeof deleteListAC> | ReturnType<typeof removeTaskAC> | ReturnType<typeof addTaskAC> | ReturnType<typeof changeChecBoxAC> | ReturnType<typeof changeTaskTitleAC> | ReturnType<typeof setTasks>
+type ActionTypes = ReturnType<typeof deleteListAC> | ReturnType<typeof removeTaskAC> | ReturnType<typeof addTaskAC> | ReturnType<typeof changeChecBoxAC> | ReturnType<typeof changeTaskTitleAC> | ReturnType<typeof setTasks> | ReturnType<typeof sortTaskAC>
 
 export const setTasks = (data: any) => {
   return {
@@ -130,6 +131,14 @@ export const removeTaskAC = (toDoId: string, taskId: string) => {
     type: 'REMOVE-TASK' as const,
     toDoId: toDoId,
     taskId: taskId
+  } as const
+}
+
+export const sortTaskAC = (toDoId: string, filter: FilterType) => {
+  return {
+    type: 'SORT-TASK' as const,
+    toDoId: toDoId,
+    filter: filter
   } as const
 }
 
@@ -173,7 +182,7 @@ export const addTaskRequest = (title: string, todoId: any): ThunkAction<void, {}
 
 
 export const changeChecBoxAC = (newFilter: boolean, toDoId: string, taskId: string) => {
-  
+
   return {
     type: 'CHANGE-CHECKBOX' as const,
     toDoId: toDoId,
@@ -230,6 +239,22 @@ export const tasksReducer = (state: StateTasksType = initialState, action: Actio
       stateCopy[action.toDoId] = filtreTasks
       return { ...stateCopy }
 
+    case ('SORT-TASK'):
+
+      let tasksArray = [...state[action.toDoId]]
+
+      if (action.filter === "Completed" || action.filter === "Active") {
+
+        let sortedTasks = tasksArray.filter((task: TasksType) => action.filter === 'Completed' ? task.completed === true : task.completed === false)
+
+        return {
+          ...state,
+          [action.toDoId]: sortedTasks
+        }
+      }
+      //почему олл не возвращает все таски? 
+      else return { ...state, [action.toDoId]:tasksArray }
+
     case ('ADD-TASK'):
       let newTask = {
         title: action.newTitle,
@@ -244,11 +269,13 @@ export const tasksReducer = (state: StateTasksType = initialState, action: Actio
         order: 0,
         addedDate: "2019-07-30T12:24:15.063",
       }
-      return { ...state, [action.toDoId]: [newTask, 
-        ...state[action.toDoId]] }
+      return {
+        ...state, [action.toDoId]: [newTask,
+          ...state[action.toDoId]]
+      }
     case ('CHANGE-CHECKBOX'):
-      
-       return {
+
+      return {
         ...state, [action.toDoId]: state[action.toDoId].map(task => {
           return task.id === action.taskId ? { ...task, completed: action.newFilter } : task
         })

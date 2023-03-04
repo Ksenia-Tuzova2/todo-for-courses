@@ -5,6 +5,7 @@ import { Rootstate, UseAppDispatch } from '../../store/redux-store';
 import { changeFilterAc, StateTodoType } from '../../store/toDoListReduser';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { sortTaskAC } from '../../store/tasksReduser';
 
 export type FilterPropsType = {
     filter: FilterType
@@ -21,6 +22,7 @@ export const Filter=React.memo(({
     
     const changeFilterHandler = useCallback(function(param: FilterType){
         dispatch(changeFilterAc(todoId, param))
+        dispatch(sortTaskAC(todoId, param))
     },[dispatch])
 
     console.log('rerender filters');

@@ -1,6 +1,7 @@
 import { ThunkAction } from "redux-thunk"
 import { v1 } from "uuid"
 import { todoApi } from "../api/todoApi"
+import { FilterType } from "../App"
 import { TasksType } from "./tasksReduser"
 
 export type StateTodoType = {
@@ -21,14 +22,14 @@ let inititialState = [
   {
     title: 'js',
     id: toDoListId1,
-    filter: 'all',
+    filter: 'All',
     addedDate: "2019-07-30T12:24:15.063",
     order: 0
   },
   {
     title: 'js',
     id: toDoListId2,
-    filter: 'all',
+    filter: 'All',
     addedDate: "2019-07-30T12:24:15.063",
     order: 0
   }
@@ -52,11 +53,10 @@ export const todoDataRequest = (): ThunkAction<void, {}, {}, any> => {
   }
 }
 
-export const changeFilterAc = (id: string, filter: string) => {
+export const changeFilterAc = (id: string, filter: FilterType) => {
   return {
     type: 'CHANGE-FILTER' as const,
     id: id,
-  
     filter: filter,
   } as const
 }
@@ -148,14 +148,17 @@ export const toDoListReduser = (state: Array<StateTodoType> = inititialState, ac
 
     case ('CHANGE-FILTER'):
     
-      let todolistFilter = state.find(el => el.id !== action.id)
-      if (todolistFilter) {
-        todolistFilter.filter = action.filter
-      }
-      return [...state];
+  //надо поменять в нужном листе фильтр на приходящий фильтр
+  // state.find((todo)=>todo.id===action.id).filter===action.filter
+  
+  return [...state,];
 
 
     default:
       return state
   }
 }
+
+
+//НИХУЯ НЕ РАБОТАЕТ 
+//ПОЗВОНИ ЗАВТРА НА ПОДДЕРЖКУ 
