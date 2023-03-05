@@ -116,7 +116,7 @@ let initialState = {
 }
 
 
-type ActionTypes = ReturnType<typeof deleteListAC> | ReturnType<typeof removeTaskAC> | ReturnType<typeof addTaskAC> | ReturnType<typeof changeChecBoxAC> | ReturnType<typeof changeTaskTitleAC> | ReturnType<typeof setTasks> | ReturnType<typeof sortTaskAC>
+type ActionTypes = ReturnType<typeof deleteListAC> | ReturnType<typeof removeTaskAC> | ReturnType<typeof addTaskAC> | ReturnType<typeof changeChecBoxAC> | ReturnType<typeof changeTaskTitleAC> | ReturnType<typeof setTasks> 
 
 export const setTasks = (data: any) => {
   return {
@@ -134,13 +134,7 @@ export const removeTaskAC = (toDoId: string, taskId: string) => {
   } as const
 }
 
-export const sortTaskAC = (toDoId: string, filter: FilterType) => {
-  return {
-    type: 'SORT-TASK' as const,
-    toDoId: toDoId,
-    filter: filter
-  } as const
-}
+
 
 export const removeTaskRequest = (toDoId: string, taskId: string): ThunkAction<void, {}, {}, any> => {
   return function (dispatch: any): void {
@@ -239,21 +233,8 @@ export const tasksReducer = (state: StateTasksType = initialState, action: Actio
       stateCopy[action.toDoId] = filtreTasks
       return { ...stateCopy }
 
-    case ('SORT-TASK'):
-
-      let tasksArray = [...state[action.toDoId]]
-
-      if (action.filter === "Completed" || action.filter === "Active") {
-
-        let sortedTasks = tasksArray.filter((task: TasksType) => action.filter === 'Completed' ? task.completed === true : task.completed === false)
-
-        return {
-          ...state,
-          [action.toDoId]: sortedTasks
-        }
-      }
-      //почему олл не возвращает все таски? 
-      else return { ...state, [action.toDoId]:tasksArray }
+   
+   
 
     case ('ADD-TASK'):
       let newTask = {

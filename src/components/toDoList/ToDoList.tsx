@@ -44,12 +44,28 @@ export const ToDoList=React.memo(({
     //задание- зарефакторить кселикс по этому методу
 
 
+    
+
 
     let mapFunction = tasks.map((el: TasksType) => {
 
-        console.log('tasks  rerender');
-        
   
+//фильтруем таски тут , а не в редьюсере
+
+//из редьюсера
+
+// let tasksArray = [...state[action.toDoId]]
+
+// if (action.filter === "Completed" || action.filter === "Active") {
+
+//   let sortedTasks = tasksArray.filter((task: TasksType) => action.filter === 'Completed' ? task.completed === true : task.completed === false)
+
+//   return {
+//     ...state,
+//     [action.toDoId]: sortedTasks
+//   }
+// }
+// else return { ...state }
 
         return <div key={el.id}>
             <TaskItem

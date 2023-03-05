@@ -2,6 +2,7 @@ import { ThunkAction } from "redux-thunk"
 import { v1 } from "uuid"
 import { todoApi } from "../api/todoApi"
 import { FilterType } from "../App"
+import { ToDoListType } from "../components/toDoList/ToDoList"
 import { TasksType } from "./tasksReduser"
 
 export type StateTodoType = {
@@ -78,14 +79,14 @@ export const removeTodoRequest = (todoId: string): ThunkAction<void, {}, {}, any
   }
 }
 
-type ItemType={
+type ItemType = {
   id: string,
   addedDate: string,
   order: number,
   title: string,
-  }
+}
 
-  
+
 export const addTodoAC = (item: ItemType) => {
   return {
     type: 'ADD-TODO-LIST' as const,
@@ -98,12 +99,12 @@ export const addTodoAC = (item: ItemType) => {
 
 
 
-export const addTodoRequest = (title:string): ThunkAction<void, {}, {}, any> => {
+export const addTodoRequest = (title: string): ThunkAction<void, {}, {}, any> => {
   return function (dispatch: any): void {
     todoApi.postTodoRequest(title).then((data: any) => {
       if (data.resultCode === 0) {
         console.log(data.data);
-        
+
         dispatch(addTodoAC(data.item))
       }
     })
@@ -132,7 +133,7 @@ export const toDoListReduser = (state: Array<StateTodoType> = inititialState, ac
         title: action.title,
         id: action.id,
         filter: 'All',
-        addedDate:action.addedDate,
+        addedDate: action.addedDate,
         order: action.order
       }]
 
@@ -147,11 +148,15 @@ export const toDoListReduser = (state: Array<StateTodoType> = inititialState, ac
       return [...state];
 
     case ('CHANGE-FILTER'):
+
     
-  //надо поменять в нужном листе фильтр на приходящий фильтр
-  // state.find((todo)=>todo.id===action.id).filter===action.filter
-  
-  return [...state,];
+      let todo = state.find((todo: StateTodoType) => todo.id === action.id)
+
+      if (todo){
+        todo.filter = action.filter
+}
+      
+      return [...state,];
 
 
     default:
@@ -160,5 +165,3 @@ export const toDoListReduser = (state: Array<StateTodoType> = inititialState, ac
 }
 
 
-//НИХУЯ НЕ РАБОТАЕТ 
-//ПОЗВОНИ ЗАВТРА НА ПОДДЕРЖКУ 
