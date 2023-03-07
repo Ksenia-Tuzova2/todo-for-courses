@@ -31,6 +31,11 @@ export const TaskItem=React.memo(({
     const dispatch = UseAppDispatch()
     const [editMode, setEditMode] = useState<boolean>(false)
 
+    let [taskInputValue, setTaskInputValue]=useState('')
+
+    let upateInputValueChangeHandler = (newtext: string) => {
+        setTaskInputValue(newtext)
+    }
 
 
     const changeTitleTaskHandler: any = useCallback(()=>function(e: React.MouseEvent<HTMLSpanElement, MouseEvent>) {
@@ -56,7 +61,10 @@ export const TaskItem=React.memo(({
         <li className={completed ? 'completed' : ''}>
 
             {editMode ? (
-                <input onBlur={onBlurCallback} />
+                <input
+                onChange={(e)=>upateInputValueChangeHandler(e.currentTarget.value)}
+                value={taskInputValue}
+                 onBlur={onBlurCallback} />
             ) : (
                 <span onDoubleClick={changeTitleTaskHandler}>{title}</span>
             )}

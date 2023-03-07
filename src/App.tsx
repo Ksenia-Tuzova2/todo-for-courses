@@ -4,12 +4,12 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Container, padding } from '@mui/system';
+import { Container} from '@mui/system';
 import { AddItemForm } from './components/AddItemForm';
 import './App.css';
 import Grid from '@mui/material/Grid';
 import { UseAppDispatch } from './store/redux-store';
-import { addTodoRequest } from './store/toDoListReduser';
+import { addTodoRequest} from './store/toDoListReduser';
 import { ToDoListMap } from './components/toDoList/ToDoListMap';
 import { useEffect } from 'react';
 import { authUserDataRequest } from './store/authReduser';
@@ -26,6 +26,26 @@ export type ToDoListsType = {
 
 function App() {
 
+
+    // гseEffect(() =>  {
+    //     this.props.getUsersThunkCreator(this.props.pageSize, this.props.currentPage)
+        
+    //   }
+    
+    
+    //   render() {
+    
+    //     const pageButtonOnClickHandler = (currentPage: number) => {
+    //       this.props.getUsersThunkCreator(this.props.pageSize, currentPage)
+    //     }
+    
+    //     const showDownload = () => {
+    //       if (this.props.isFetching === true) {
+    //         return <LoadingSpiner />
+    //       } else return <></>
+    //     }
+    
+
     const dispatch = UseAppDispatch();
 
     function addToDoList(title: string) {
@@ -34,6 +54,7 @@ function App() {
 
     useEffect(() => {
         dispatch(authUserDataRequest())
+       
       },[])
       
     return (
