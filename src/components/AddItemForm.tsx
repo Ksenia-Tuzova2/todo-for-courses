@@ -29,6 +29,7 @@ export const AddItemForm=React.memo(({ addItem}: AddItemFormType)=> {
 
 
     const plusButton = () => {
+    
         if (value.trim() !== '') {
             addItem(value.trim());
             setValue('');

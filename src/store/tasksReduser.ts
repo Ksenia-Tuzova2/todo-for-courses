@@ -118,11 +118,31 @@ let initialState = {
 
 type ActionTypes = ReturnType<typeof deleteListAC> | ReturnType<typeof removeTaskAC> | ReturnType<typeof addTaskAC> | ReturnType<typeof changeChecBoxAC> | ReturnType<typeof changeTaskTitleAC> | ReturnType<typeof setTasks> 
 
-export const setTasks = (data: any) => {
+export const setTasks = (data: any, toDoId:string) => {
+  
+
   return {
     type: 'SET_TASKS',
-    data: data
+    data: data,
+    toDoId:toDoId,
   } as const
+}
+
+export const taskRequestThunk = (toDoId: string): ThunkAction<void, {}, {}, any> => {
+  return function (dispatch: any): void {
+    taskApi.getTaskRequest(toDoId).then((data: any) => {
+      
+      if(data.data.items) {
+        dispatch(setTasks(data.data.items, toDoId))
+      } else if(data.data.error.lenght) {
+        console.log(data.data.error[0])
+      }
+  
+
+       
+      
+    })
+  }
 }
 
 
@@ -146,13 +166,6 @@ export const removeTaskRequest = (toDoId: string, taskId: string): ThunkAction<v
   }
 }
 
-//просто удаления достаточно?
-
-// export const removeTasksRequest=(toDoId: string):ThunkAction<void, {},{},any>=>{
-//   return function (dispatch:any):void{
-//     //дописать
-//   }
-// }
 
 
 export const addTaskAC = (newTitle: string, toDoId: string) => {
@@ -225,7 +238,9 @@ export const tasksReducer = (state: StateTasksType = initialState, action: Actio
   switch (action.type) {
     case ('SET_TASKS'):
       //надо сделать надстройку над стейтом? 
-      return { ...state, state: action.data }
+
+      return { ...state, [action.toDoId]: action.data}
+
     case ('REMOVE-TASK'):
       let stateCopy = { ...state }
       let tasks = stateCopy[action.toDoId]

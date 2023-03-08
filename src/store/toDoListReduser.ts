@@ -49,6 +49,8 @@ export const setTodoData = (data: any) => {
 export const todoDataRequest = (): ThunkAction<void, {}, {}, any> => {
   return function (dispatch: any): void {
     todoApi.getTodoRequest().then((data: any) => {
+      console.log(data);
+      
       dispatch(setTodoData(data))
     })
   }
@@ -103,7 +105,7 @@ export const addTodoRequest = (title: string): ThunkAction<void, {}, {}, any> =>
   return function (dispatch: any): void {
     todoApi.postTodoRequest(title).then((data: any) => {
       if (data.resultCode === 0) {
-        console.log(data.data);
+        
 
         dispatch(addTodoAC(data.item))
       }
@@ -123,8 +125,11 @@ export const changeTodoTitleAC = (newTitle: string, id: string) => {
 //важно писать после скобок с аргументами двоеточие и тип того, что должен вернуть редьюсер - ведь это иммутабельная функция, а значит, что мы должны вернуть ту же структуру, что получили
 export const toDoListReduser = (state: Array<StateTodoType> = inititialState, action: ActionTypes): Array<StateTodoType> => {
   switch (action.type) {
+    
     case ('SET_DATA'):
-      return [...state, action.data]
+      // debugger
+      return [...action.data]
+
     case ('REMOVE-TODO-LIST'):
       return state.filter(el => el.id !== action.id);
 

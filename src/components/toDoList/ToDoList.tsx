@@ -1,13 +1,13 @@
 import { Delete } from '@mui/icons-material';
 import IconButton from '@mui/material/IconButton';
-import {  ChangeEvent, KeyboardEvent, useCallback } from 'react';
+import {  ChangeEvent, KeyboardEvent, useCallback, useEffect } from 'react';
 import { AddItemForm } from '../AddItemForm';
 import { FilterType } from '../../App';
 import { Button} from '@mui/material';
 import { TaskItem } from '../taskItem/taskItem';
 import { UseAppDispatch } from '../../store/redux-store';
-import { addTaskAC, changeChecBoxAC, removeTaskRequest,TasksType } from '../../store/tasksReduser';
-import { changeFilterAc, removeTodoRequest } from '../../store/toDoListReduser';
+import {  addTaskRequest, changeChecBoxAC, removeTaskRequest,taskRequestThunk,TasksType } from '../../store/tasksReduser';
+import { removeTodoRequest } from '../../store/toDoListReduser';
 import s from './todo.module.css';
 import React from 'react';
 import { Filter } from './filter';
@@ -28,6 +28,9 @@ export const ToDoList=React.memo(({
 
     let dispatch = UseAppDispatch()
 
+    useEffect(()=>{
+        dispatch(taskRequestThunk(todoId))
+    } , [dispatch, todoId])
 
 
     const onDeleteTodoHandler = useCallback(function(todoId: string){
@@ -47,7 +50,7 @@ export const ToDoList=React.memo(({
     
 
 
-    let mapFunction = tasks.map((el: TasksType) => {
+    let mapFunction = tasks?.map((el: TasksType) => {
 
   
 
@@ -70,9 +73,10 @@ export const ToDoList=React.memo(({
 
 
 
-    const addTaskHandler = useCallback(()=>function(taskTitle: string){
-        dispatch(addTaskAC(taskTitle, todoId))
-    },[dispatch])
+    const addTaskHandler = (taskTitle: string) => {
+       
+        dispatch(addTaskRequest(taskTitle, todoId))
+    }
 
 
     return (

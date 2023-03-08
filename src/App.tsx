@@ -9,7 +9,7 @@ import { AddItemForm } from './components/AddItemForm';
 import './App.css';
 import Grid from '@mui/material/Grid';
 import { UseAppDispatch } from './store/redux-store';
-import { addTodoRequest} from './store/toDoListReduser';
+import { addTodoRequest, todoDataRequest} from './store/toDoListReduser';
 import { ToDoListMap } from './components/toDoList/ToDoListMap';
 import { useEffect } from 'react';
 import { authUserDataRequest } from './store/authReduser';
@@ -54,7 +54,7 @@ function App() {
 
     useEffect(() => {
         dispatch(authUserDataRequest())
-       
+       dispatch(todoDataRequest())
       },[])
       
     return (
