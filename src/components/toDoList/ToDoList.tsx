@@ -5,15 +5,16 @@ import { AddItemForm } from '../AddItemForm';
 import { FilterType } from '../../App';
 import { Button} from '@mui/material';
 import { TaskItem } from '../taskItem/taskItem';
-import { UseAppDispatch } from '../../store/redux-store';
-import {  addTaskRequest, changeChecBoxAC, removeTaskRequest,taskRequestThunk,TasksType } from '../../store/tasksReduser';
+import { Rootstate, UseAppDispatch } from '../../store/redux-store';
+import {  addTaskRequest, changeChecBoxAC, removeTaskRequest,StateTasksType,taskRequestThunk,TasksType } from '../../store/tasksReduser';
 import { removeTodoRequest } from '../../store/toDoListReduser';
 import s from './todo.module.css';
 import React from 'react';
 import { Filter } from './filter';
+import { useSelector } from 'react-redux';
 
 export type ToDoListType = {
-    tasks: Array<any>,
+    // tasks: Array<any>,
     title: string,
     filter: FilterType,
     todoId: string
@@ -21,16 +22,28 @@ export type ToDoListType = {
 
 
 export const ToDoList=React.memo(({
-    tasks,
+    // tasks,
     title,
     filter,
     todoId }: ToDoListType)=> {
 
+        const tasks = useSelector<Rootstate, TasksType[]>((state) => state.tasksReducer[todoId])
+
     let dispatch = UseAppDispatch()
+//починить фильтр 
+//починить делит запрос
+    
+    let sortedArray: Array<TasksType> = tasks
+
+    if (filter === "Completed" ||filter === "Active") {
+
+        sortedArray = tasks.filter((task: TasksType) =>filter === 'Completed' ? task.completed === true : task.completed === false)
+    }
 
     useEffect(()=>{
         dispatch(taskRequestThunk(todoId))
-    } , [dispatch, todoId])
+    
+    } , [])
 
 
     const onDeleteTodoHandler = useCallback(function(todoId: string){
@@ -50,7 +63,7 @@ export const ToDoList=React.memo(({
     
 
 
-    let mapFunction = tasks?.map((el: TasksType) => {
+    let mapFunction = sortedArray?.map((el: TasksType) => {
 
   
 

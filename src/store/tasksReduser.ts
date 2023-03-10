@@ -116,31 +116,34 @@ let initialState = {
 }
 
 
-type ActionTypes = ReturnType<typeof deleteListAC> | ReturnType<typeof removeTaskAC> | ReturnType<typeof addTaskAC> | ReturnType<typeof changeChecBoxAC> | ReturnType<typeof changeTaskTitleAC> | ReturnType<typeof setTasks> 
+type ActionTypes = ReturnType<typeof deleteListAC> | ReturnType<typeof removeTaskAC> | ReturnType<typeof addTaskAC> | ReturnType<typeof changeChecBoxAC> | ReturnType<typeof changeTaskTitleAC> | ReturnType<typeof setTasks>
 
-export const setTasks = (data: any, toDoId:string) => {
-  
+export const setTasks = (data: any, toDoId: string) => {
+
 
   return {
     type: 'SET_TASKS',
     data: data,
-    toDoId:toDoId,
+    toDoId: toDoId,
   } as const
 }
 
 export const taskRequestThunk = (toDoId: string): ThunkAction<void, {}, {}, any> => {
   return function (dispatch: any): void {
+
+    console.log('task request thunk');
+
     taskApi.getTaskRequest(toDoId).then((data: any) => {
-      
-      if(data.data.items) {
+
+      if (data.data.items) {
         dispatch(setTasks(data.data.items, toDoId))
-      } else if(data.data.error.lenght) {
+      } else if (data.data.error.lenght) {
         console.log(data.data.error[0])
       }
-  
 
-       
-      
+
+
+
     })
   }
 }
@@ -168,19 +171,22 @@ export const removeTaskRequest = (toDoId: string, taskId: string): ThunkAction<v
 
 
 
-export const addTaskAC = (newTitle: string, toDoId: string) => {
+export const addTaskAC = (newTask: TasksType, toDoId: string) => {
   return {
     type: 'ADD-TASK' as const,
-    newTitle: newTitle,
-    toDoId: toDoId,
+    newTask,
+    toDoId,
   } as const
 }
 
 export const addTaskRequest = (title: string, todoId: any): ThunkAction<void, {}, {}, any> => {
   return function (dispatch: any): void {
     taskApi.postTaskRequest(title, todoId).then((data: any) => {
+      
       if (data.resultCode === 0) {
-        dispatch(addTaskAC(data.title, data.todoId))
+        console.log(data.data);
+
+        dispatch(addTaskAC(data.data.item, todoId))
       }
     })
   }
@@ -239,7 +245,7 @@ export const tasksReducer = (state: StateTasksType = initialState, action: Actio
     case ('SET_TASKS'):
       //надо сделать надстройку над стейтом? 
 
-      return { ...state, [action.toDoId]: action.data}
+      return { ...state, [action.toDoId]: action.data }
 
     case ('REMOVE-TASK'):
       let stateCopy = { ...state }
@@ -248,25 +254,26 @@ export const tasksReducer = (state: StateTasksType = initialState, action: Actio
       stateCopy[action.toDoId] = filtreTasks
       return { ...stateCopy }
 
-   
-   
+
+
 
     case ('ADD-TASK'):
-      let newTask = {
-        title: action.newTitle,
-        id: v1(),
-        description: 'something',
-        completed: false,
-        status: 0,
-        priority: 0,
-        startDate: "2019-07-30T12:24:15.063",
-        deadline: "2019-07-30T12:24:15.063",
-        todoListId: action.toDoId,
-        order: 0,
-        addedDate: "2019-07-30T12:24:15.063",
-      }
+      
+      // let newTask = {
+      //   title: action.newTitle,
+      //   id: v1(),
+      //   description: 'something',
+      //   completed: false,
+      //   status: 0,
+      //   priority: 0,
+      //   startDate: "2019-07-30T12:24:15.063",
+      //   deadline: "2019-07-30T12:24:15.063",
+      //   todoListId: action.toDoId,
+      //   order: 0,
+      //   addedDate: "2019-07-30T12:24:15.063",
+      // }
       return {
-        ...state, [action.toDoId]: [newTask,
+        ...state, [action.toDoId]: [ action.newTask,
           ...state[action.toDoId]]
       }
     case ('CHANGE-CHECKBOX'):

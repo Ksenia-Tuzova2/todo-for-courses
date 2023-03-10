@@ -8,7 +8,7 @@ import { TasksType } from "./tasksReduser"
 export type StateTodoType = {
   title: string,
   id: string,
-  filter: string
+  filter: string,
   addedDate: string,
   order: number,
 }
@@ -19,21 +19,21 @@ export type StateTodoType = {
 export let toDoListId1 = v1()
 export let toDoListId2 = v1()
 
-let inititialState = [
-  {
-    title: 'js',
-    id: toDoListId1,
-    filter: 'All',
-    addedDate: "2019-07-30T12:24:15.063",
-    order: 0
-  },
-  {
-    title: 'js',
-    id: toDoListId2,
-    filter: 'All',
-    addedDate: "2019-07-30T12:24:15.063",
-    order: 0
-  }
+let inititialState: Array<StateTodoType> = [
+  // {
+  //   title: 'js',
+  //   id: toDoListId1,
+  //   filter: 'All',
+  //   addedDate: "2019-07-30T12:24:15.063",
+  //   order: 0
+  // },
+  // {
+  //   title: 'js',
+  //   id: toDoListId2,
+  //   filter: 'All',
+  //   addedDate: "2019-07-30T12:24:15.063",
+  //   order: 0
+  // }
 ]
 
 type ActionTypes = ReturnType<typeof changeFilterAc> | ReturnType<typeof removeTodoAC> | ReturnType<typeof addTodoAC> | ReturnType<typeof changeTodoTitleAC> | ReturnType<typeof setTodoData>
@@ -153,15 +153,20 @@ export const toDoListReduser = (state: Array<StateTodoType> = inititialState, ac
       return [...state];
 
     case ('CHANGE-FILTER'):
-
-    
-      let todo = state.find((todo: StateTodoType) => todo.id === action.id)
-
-      if (todo){
-        todo.filter = action.filter
-}
+      console.log('from reducer AC');
       
-      return [...state,];
+      //let todo = state.find((todo: StateTodoType) => 
+      //todo.id === action.id)
+
+      //if (todo){
+        //{...todo}filter = action.filter
+//}
+      
+      //return [...state,];
+      return state.map(todo => {
+        if(todo.id !== action.id) return todo
+        return {...todo, filter: action.filter}
+      })
 
 
     default:

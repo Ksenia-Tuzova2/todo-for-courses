@@ -14,7 +14,8 @@ const reducersPack=combineReducers({
 
 export type Rootstate=ReturnType<typeof reducersPack>
 
-export let store:Store<Rootstate>=createStore(reducersPack, applyMiddleware(thunk))
+export let store=createStore(reducersPack, applyMiddleware(thunk))
+// const StoreI = typeof store
 
 export const dispatch=store.dispatch
 

@@ -26,10 +26,6 @@ export const ToDoListMap = React.memo(() => {
 
     const todoArray = useSelector<Rootstate, Array<StateTodoType>>(state => state.toDoListReduser as any)
 
-    const tasks = useSelector<Rootstate, StateTasksType>((state) => state.tasksReducer as any)
-
-
-
 
     //вынесли хэндлер за пределы мапа, чтобы не ограничиваться скоупом. Для этого мы в хэндлере передаем в параметре айдишку в пределах мапа, а потом мы передаем в делит таск нужную айдишку таким образом , хоть и за пределами мапа
 
@@ -40,23 +36,11 @@ export const ToDoListMap = React.memo(() => {
 
 
 
-        let sortedArray: Array<TasksType> = tasks[el.id]
-
-        if (el.filter === "Completed" || el.filter === "Active") {
-
-            sortedArray = sortedArray.filter((task: TasksType) => el.filter === 'Completed' ? task.completed === true : task.completed === false)
-        }
-
-
         console.log('todo  rerender');
         return (<div className={s.outTodoContainer} key={v1()}>
             <Item elevation={4}>
                 <div className={s.innerTodoContainer}>
                     <ToDoList
-                        tasks={
-                            sortedArray
-                            // tasks[el.id]
-                        }
                         title={el.title}
                         filter={el.filter}
                         todoId={el.id}
@@ -76,8 +60,4 @@ export const ToDoListMap = React.memo(() => {
     );
 }
 )
-
-function getTaskRequest() {
-    throw new Error('Function not implemented.');
-}
 
