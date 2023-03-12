@@ -1,27 +1,60 @@
+import { ToDoListType } from "../components/toDoList/ToDoList"
+import { StateTodoType } from "../store/toDoListReduser"
 import { instance } from "./instance"
+
+type TodoType= {
+    id: string,
+    title: string,
+    addedDate: string,
+    order: number
+ } 
+
+
+type ResponcePostTodoType={
+    resultCode: 0
+    messages: string[],
+    data: {
+      item: TodoType
+    }
+}
+
+
+type ResponceGetTodoType=TodoType[]
+
+type ResponcePutTodoType={}
+
+type ResponceDeleteTodoType={
+    resultCode: number
+    messages: [string],
+    data: {}
+}
 
 
 
 export const todoApi = {
     getTodoRequest() {
-        return instance.get(`/todo-lists`,
+        //  пишем в дженерике что возвращает запрос 
+        return instance.get<ResponceGetTodoType>(`/todo-lists`,
         ).then((Response) => { return (Response.data) })
     },
+
     postTodoRequest(title: string) {
-        return (instance.post(`/todo-lists`,
+        return (instance.post<ResponcePostTodoType>(`/todo-lists`,
             {
              title: title
             }, 
         )
         ).then((Response) => { return (Response.data) })
     },
+
     putTodoRequest(todolistId: string, title: string) {
-        return (instance.put(`/todo-lists/${todolistId}`,
+        return (instance.put<ResponcePutTodoType>(`/todo-lists/${todolistId}`,
             { title: title }, )
         ).then((Response) => { return (Response.data) })
     },
+
     deleteTodoRequest(todolistId: string) {
-        return (instance.delete(`/todo-lists/${todolistId}`,
+        return (instance.delete<ResponceDeleteTodoType>(`/todo-lists/${todolistId}`,
          )
         ).then((Response) => { return (Response.data) })
     },

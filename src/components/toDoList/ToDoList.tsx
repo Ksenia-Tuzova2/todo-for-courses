@@ -1,37 +1,32 @@
 import { Delete } from '@mui/icons-material';
-import IconButton from '@mui/material/IconButton';
-import {  ChangeEvent, KeyboardEvent, useCallback, useEffect } from 'react';
+import {  useCallback } from 'react';
 import { AddItemForm } from '../AddItemForm';
-import { FilterType } from '../../App';
-import { Button} from '@mui/material';
 import { TaskItem } from '../taskItem/taskItem';
 import { Rootstate, UseAppDispatch } from '../../store/redux-store';
-import {  addTaskRequest, changeChecBoxAC, removeTaskRequest,StateTasksType,taskRequestThunk,TasksType } from '../../store/tasksReduser';
-import { removeTodoRequest } from '../../store/toDoListReduser';
+import {  addTaskRequest, removeTaskRequest,TasksType } from '../../store/tasksReduser';
+import { removeTodoRequest, StateTodoType } from '../../store/toDoListReduser';
 import s from './todo.module.css';
 import React from 'react';
 import { Filter } from './filter';
 import { useSelector } from 'react-redux';
 
 export type ToDoListType = {
-    // tasks: Array<any>,
-    title: string,
-    filter: FilterType,
     todoId: string
 }
 
-
 export const ToDoList=React.memo(({
-    // tasks,
-    title,
-    filter,
     todoId }: ToDoListType)=> {
 
         const tasks = useSelector<Rootstate, TasksType[]>((state) => state.tasksReducer[todoId])
 
+const {filter, title}=useSelector<Rootstate, StateTodoType>(
+    (state=>state.toDoListReduser
+        .find(todo=>todoId===todo.id)!)
+)
+
     let dispatch = UseAppDispatch()
-//починить фильтр 
-//починить делит запрос
+
+
     
     let sortedArray: Array<TasksType> = tasks
 
@@ -40,11 +35,6 @@ export const ToDoList=React.memo(({
         sortedArray = tasks.filter((task: TasksType) =>filter === 'Completed' ? task.completed === true : task.completed === false)
     }
 
-    useEffect(()=>{
-        dispatch(taskRequestThunk(todoId))
-    
-    } , [])
-
 
     const onDeleteTodoHandler = useCallback(function(todoId: string){
         dispatch(removeTodoRequest(todoId))
@@ -52,20 +42,13 @@ export const ToDoList=React.memo(({
     },[dispatch])
 
 
-    //вынесли хэндлер за пределы мапа, чтобы не ограничиваться скоупом. Для этого мы в хэндлере передаем в параметре айдишку в пределах мапа, а потом мы передаем в делит таск нужную айдишку таким образом , хоть и за пределами мапа
-    const onDeleteTaskHandler = useCallback(()=>function(idItem: string){
+   
+    const onDeleteTaskHandler = useCallback((idItem: string)=>{
         dispatch(removeTaskRequest(todoId, idItem))
     },[dispatch])
-    //даже те функции которые в обработчиках в методе мап нужно облегчать - пишем прямо в мап функцию, которая будет считываться при нажатии на кнопку
-    //задание- зарефакторить кселикс по этому методу
-
-
-    
 
 
     let mapFunction = sortedArray?.map((el: TasksType) => {
-
-  
 
         return <div key={el.id}>
             <TaskItem

@@ -1,13 +1,10 @@
-import { useSelector } from 'react-redux';
-import { dispatch, Rootstate, UseAppDispatch } from '../../store/redux-store';
-import { ToDoList } from './ToDoList';
-import { StateTodoType } from '../../store/toDoListReduser';
-import { StateTasksType, TasksType } from '../../store/tasksReduser';
-import s from './todo.module.css';
 import { Paper, styled } from '@mui/material';
-import { v1 } from 'uuid';
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Rootstate } from '../../store/redux-store';
+import { StateTodoType } from '../../store/toDoListReduser';
+import s from './todo.module.css';
+import { ToDoList } from './ToDoList';
 
 //данные принимаем через юз селектор - используем юз диспатч при вызове экшн креэторов
 
@@ -27,28 +24,16 @@ export const ToDoListMap = React.memo(() => {
     const todoArray = useSelector<Rootstate, Array<StateTodoType>>(state => state.toDoListReduser as any)
 
 
-    //вынесли хэндлер за пределы мапа, чтобы не ограничиваться скоупом. Для этого мы в хэндлере передаем в параметре айдишку в пределах мапа, а потом мы передаем в делит таск нужную айдишку таким образом , хоть и за пределами мапа
-
-
-
-    let mapFunction = todoArray.map((el: any) => {
-
-
-
-
-        console.log('todo  rerender');
-        return (<div className={s.outTodoContainer} key={v1()}>
+    let mapFunction = todoArray.map((el) => {
+        return (<div className={s.outTodoContainer} key={el.id}>
             <Item elevation={4}>
                 <div className={s.innerTodoContainer}>
                     <ToDoList
-                        title={el.title}
-                        filter={el.filter}
                         todoId={el.id}
                     />
                 </div>
             </Item>
         </div>
-
         )
     })
 

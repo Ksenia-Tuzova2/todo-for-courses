@@ -14,14 +14,8 @@ export type PropsTaskType = {
 
 
 export const TaskItem=React.memo(({
-    description,
-    status,
-    priority,
-    deadline,
+   //можно все данные распаковать в юзселекторе
     todoListId,
-    order,
-    addedDate,
-    startDate,
     completed,
     title,
     onDeleteHandler,
