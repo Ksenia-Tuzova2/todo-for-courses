@@ -11,7 +11,7 @@ type TodoType= {
 
 
 type ResponcePostTodoType={
-    resultCode: 0
+    resultCode: number,
     messages: string[],
     data: {
       item: TodoType
@@ -21,7 +21,9 @@ type ResponcePostTodoType={
 
 type ResponceGetTodoType=TodoType[]
 
-type ResponcePutTodoType={}
+type ResponcePutTodoType={
+    title:string
+}
 
 type ResponceDeleteTodoType={
     resultCode: number
@@ -47,7 +49,7 @@ export const todoApi = {
         ).then((Response) => { return (Response.data) })
     },
 
-    putTodoRequest(todolistId: string, title: string) {
+    updateTodoRequest(todolistId: string, title: string) {
         return (instance.put<ResponcePutTodoType>(`/todo-lists/${todolistId}`,
             { title: title }, )
         ).then((Response) => { return (Response.data) })

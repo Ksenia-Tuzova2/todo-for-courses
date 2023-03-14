@@ -134,7 +134,7 @@ export const changeTaskTitleAC = (newName: string, toDoId: string, taskId: strin
 
 export const changeTaskTitleRequest = (toDoId: string, taskId: string, newName: string): ThunkAction<void, {}, {}, any> => {
   return function (dispatch: any) {
-    taskApi.putTaskRequest(toDoId, taskId, newName).then((data: any) => {
+    taskApi.updateTaskRequest(toDoId, taskId, newName).then((data: any) => {
 
       //зачем нужна проверка на резалт код ноль, если зен не выполнится все равно,если резалт код будет другой?
       //или дата придет в любом случае, просто там будет резалт код не ноль и это сойдет за дату?

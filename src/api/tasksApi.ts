@@ -1,20 +1,35 @@
+import { TasksType } from "../store/tasksReduser"
 import { instance } from "./instance"
 import { } from "./todoApi"
 
-
- type ResponcePostTaskType={
+type ResponcePostTaskType = {
+    data: TasksType,
+    resultCode: number,
+    messages: Array<string> | string,
 }
 
-type ResponceGetTaskType={
+type ResponceGetTaskType = {
+    items: Array<TasksType>,
+    Items: TasksType,
+    error: string,
 }
 
-type ResponcePutTaskType={
+type ResponcePutTaskType = {
+    data: TasksType,
+    resultCode: number,
+    messages: Array<string> | string,
 }
 
-type ResponceDeleteTaskType={
+type ResponceDeleteTaskType = {
+    data: TasksType,
+    resultCode: number,
+    messages: Array<string> | string,
 }
 
-type ResponceReorderTaskType={
+type ResponceReorderTaskType = {
+    data: TasksType,
+    resultCode: number,
+    messages: Array<string> | string,
 }
 
 export const taskApi = {
@@ -29,7 +44,7 @@ export const taskApi = {
         )
     },
 
-    putTaskRequest(todolistId: any, taskId: any, title: string) {
+    updateTaskRequest(todolistId: any, taskId: any, title: string) {
         return instance.put<ResponcePutTaskType>(`/todo-lists/${todolistId}/tasks/${taskId}`,
 
             {
