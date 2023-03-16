@@ -1,4 +1,4 @@
-import { TasksType } from "../store/tasksReduser"
+import { PriorityTaskType, StatusTaskType, TasksType } from "../store/tasksReduser"
 import { instance } from "./instance"
 import { } from "./todoApi"
 
@@ -50,8 +50,8 @@ export const taskApi = {
          title: string,
          description: string = 'there is no description yet', 
          completed:boolean=false,
-         status:number=0,
-         priority:number=0,
+         status:StatusTaskType=0,
+         priority:PriorityTaskType=0,
          startDate: string = '02.03.2022',
         deadline: string = '02.03.2022',
          ) {

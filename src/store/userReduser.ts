@@ -1,4 +1,3 @@
-import { FilterType } from "../App"
 
 export type StateType = {
   age: number,

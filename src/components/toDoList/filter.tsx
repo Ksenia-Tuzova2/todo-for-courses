@@ -1,12 +1,11 @@
 import {  useCallback } from 'react';
-import { FilterType } from '../../App';
 import { Button} from '@mui/material';
 import {  UseAppDispatch } from '../../store/redux-store';
-import { changeFilterAc } from '../../store/toDoListReduser';
+import { changeFilterAc, FilterType } from '../../store/toDoListReduser';
 import React from 'react';
 
 export type FilterPropsType = {
-    filter: FilterType
+    filter: FilterType,
     todoId: string
 }
 

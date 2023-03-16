@@ -14,8 +14,6 @@ import { ToDoListMap } from './components/toDoList/ToDoListMap';
 import { useEffect } from 'react';
 import { authUserDataRequest } from './store/authReduser';
 
-export type FilterType = 'All' | 'Active' | 'Completed'
-
 
 
 
@@ -36,7 +34,11 @@ function App() {
         <div className="App">
             <AppBar position='static'>
                 <Toolbar>
-                    <IconButton edge='start' color='inherit' aria-label='menu'>
+                    <IconButton 
+                    edge='start' 
+                    color='inherit'
+                     aria-label='menu'
+                     >
                         <MenuIcon />
                     </IconButton>
                     <Typography variant='h6'>
@@ -46,7 +48,9 @@ function App() {
                 </Toolbar>
             </AppBar>
             <Container fixed>
-                <Grid container style={{ padding: '10px 0px' }} >
+                <Grid container
+                 style={{ padding: '10px 0px' }}
+                  >
                     <AddItemForm addItem={addToDoList} />
                 </Grid>
                 <Grid container spacing={3}>

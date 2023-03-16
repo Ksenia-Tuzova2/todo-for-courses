@@ -1,13 +1,28 @@
 import { ThunkAction } from "redux-thunk"
 import { taskApi } from "../api/tasksApi"
 
+export enum StatusTaskType{
+  New=0,
+  InProgress=1,
+  Completed=2,
+  Draft=3,
+}
+
+export enum PriorityTaskType{
+  Low=0,
+  Middle=1,
+  Hi=2,
+  Urgently=3,
+  Later=4,
+}
+
 export type TasksType = {
   id: string,
   description: string,
   title: string,
   completed: boolean,
-  status: number,
-  priority: number,
+  status: StatusTaskType,
+  priority: PriorityTaskType,
   startDate: string,
   deadline: string,
   todoListId: string,

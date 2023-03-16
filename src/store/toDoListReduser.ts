@@ -1,7 +1,7 @@
 import { ThunkAction } from "redux-thunk"
 import { v1 } from "uuid"
 import { todoApi } from "../api/todoApi"
-import { FilterType} from "../App"
+
 import { taskRequestThunk} from "./tasksReduser"
 
 export type StateTodoType = {
@@ -12,8 +12,9 @@ export type StateTodoType = {
   order: number,
 }
 
-export let toDoListId1 = v1()
-export let toDoListId2 = v1()
+export type FilterType = 'All' | 'Active' | 'Completed'
+
+
 
 let inititialState: Array<StateTodoType> = [
 ]

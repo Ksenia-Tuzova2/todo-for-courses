@@ -1,19 +1,10 @@
-import { v1 } from "uuid"
-import { addTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from "./tasksReduser"
-
-export type FilterType = 'All' | 'Active' | 'Completed'
 
 // export type TasksListsType = {
 //   [key: string]: Array<TasksType>,
 
 // }
 
-// type TasksType={
-//   task: string,
-//   id:string,
-//   description: string,
-//   completed: boolean,
-// }
+
 
 
 // test('correct task should be deleted from correct array',()=>{

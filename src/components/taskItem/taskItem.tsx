@@ -3,10 +3,9 @@ import CreateIcon from '@mui/icons-material/Create';
 import IconButton from '@mui/material/IconButton';
 import { Checkbox } from '@mui/material';
 import { ChangeEvent, useCallback, useState } from 'react';
-import { changeChecBoxAC, changeTaskTitleRequest, TasksType } from '../../store/tasksReduser';
+import { changeChecBoxAC, changeTaskTitleRequest, PriorityTaskType, StatusTaskType, TasksType } from '../../store/tasksReduser';
 import { UseAppDispatch } from '../../store/redux-store';
 import React from 'react';
-import { setPriority } from 'os';
 
 
 export type PropsTaskType = {
@@ -37,9 +36,9 @@ export const TaskItem = React.memo(({
     let [deadlineInputValue, setDeadlineInputValue] = useState<string>('')
 
 
-    let [statusInputValue, setStatusInputValue] = useState<number>(0)
+    let [statusInputValue, setStatusInputValue] = useState<StatusTaskType>(0)
 
-    let [priorityInputValue, setPriorityInputValue] = useState<number>(0)
+    let [priorityInputValue, setPriorityInputValue] = useState<PriorityTaskType>(0)
 
     let [orderInputValue, setOrderInputValue] = useState<number>(0)
 
