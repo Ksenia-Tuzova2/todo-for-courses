@@ -1,6 +1,4 @@
-import { ToDoListType } from "../components/toDoList/ToDoList"
-import { StateTodoType } from "../store/toDoListReduser"
-import { instance } from "./instance"
+import { instance, ResponceUniversalTodoType } from "./instance"
 
 type TodoType= {
     id: string,
@@ -10,14 +8,9 @@ type TodoType= {
  } 
 
 
-type ResponcePostTodoType={
-    resultCode: number,
-    messages: string[],
-    data: {
-      item: TodoType
-    }
+type ResponceCreateTodoType={
+   item: TodoType
 }
-
 
 type ResponceGetTodoType=TodoType[]
 
@@ -25,23 +18,17 @@ type ResponcePutTodoType={
     title:string
 }
 
-type ResponceDeleteTodoType={
-    resultCode: number
-    messages: [string],
-    data: {}
-}
-
 
 
 export const todoApi = {
     getTodoRequest() {
         //  пишем в дженерике что возвращает запрос 
-        return instance.get<ResponceGetTodoType>(`/todo-lists`,
+        return instance.get<ResponceUniversalTodoType<ResponceGetTodoType>>(`/todo-lists`,
         ).then((Response) => { return (Response.data) })
     },
 
-    postTodoRequest(title: string) {
-        return (instance.post<ResponcePostTodoType>(`/todo-lists`,
+    createTodoRequest(title: string) {
+        return (instance.post<ResponceUniversalTodoType<ResponceCreateTodoType>>(`/todo-lists`,
             {
              title: title
             }, 
@@ -50,13 +37,13 @@ export const todoApi = {
     },
 
     updateTodoRequest(todolistId: string, title: string) {
-        return (instance.put<ResponcePutTodoType>(`/todo-lists/${todolistId}`,
+        return (instance.put<ResponceUniversalTodoType<ResponcePutTodoType>>(`/todo-lists/${todolistId}`,
             { title: title }, )
         ).then((Response) => { return (Response.data) })
     },
 
     deleteTodoRequest(todolistId: string) {
-        return (instance.delete<ResponceDeleteTodoType>(`/todo-lists/${todolistId}`,
+        return (instance.delete<ResponceUniversalTodoType>(`/todo-lists/${todolistId}`,
          )
         ).then((Response) => { return (Response.data) })
     },

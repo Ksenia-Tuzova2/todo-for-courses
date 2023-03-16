@@ -10,12 +10,12 @@ import React from 'react';
 import { Filter } from './filter';
 import { useSelector } from 'react-redux';
 
-export type ToDoListType = {
+export type ToDoListPropsType = {
     todoId: string
 }
 
 export const ToDoList=React.memo(({
-    todoId }: ToDoListType)=> {
+    todoId }: ToDoListPropsType)=> {
 
         const tasks = useSelector<Rootstate, TasksType[]>((state) => state.tasksReducer[todoId])
 

@@ -17,34 +17,9 @@ import { authUserDataRequest } from './store/authReduser';
 export type FilterType = 'All' | 'Active' | 'Completed'
 
 
-export type ToDoListsType = {
-    title: string,
-    id: string,
-    filter: FilterType
-}
 
 
-function App() {
-
-
-    // гseEffect(() =>  {
-    //     this.props.getUsersThunkCreator(this.props.pageSize, this.props.currentPage)
-        
-    //   }
-    
-    
-    //   render() {
-    
-    //     const pageButtonOnClickHandler = (currentPage: number) => {
-    //       this.props.getUsersThunkCreator(this.props.pageSize, currentPage)
-    //     }
-    
-    //     const showDownload = () => {
-    //       if (this.props.isFetching === true) {
-    //         return <LoadingSpiner />
-    //       } else return <></>
-    //     }
-    
+function App() {    
 
     const dispatch = UseAppDispatch();
 

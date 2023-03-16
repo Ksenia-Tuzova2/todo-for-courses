@@ -1,5 +1,12 @@
 import axios from "axios";
 
+export type ResponceUniversalTodoType< D={} >={
+    resultCode: number
+    messages: [string],
+    data: D
+}
+
+
 
 //это позволяет нам делать кроссдоменный запрос
 // и собирать куку - текстовый файл с данными  -

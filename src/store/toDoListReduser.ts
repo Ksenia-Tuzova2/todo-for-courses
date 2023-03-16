@@ -1,7 +1,7 @@
 import { ThunkAction } from "redux-thunk"
 import { v1 } from "uuid"
 import { todoApi } from "../api/todoApi"
-import { FilterType } from "../App"
+import { FilterType} from "../App"
 import { taskRequestThunk} from "./tasksReduser"
 
 export type StateTodoType = {
@@ -87,7 +87,7 @@ export const addTodoAC = (item: ItemType) => {
 
 export const addTodoRequest = (title: string): ThunkAction<void, {}, {}, any> => {
   return function (dispatch: any): void {
-    todoApi.postTodoRequest(title).then((Response: any) => {
+    todoApi.createTodoRequest(title).then((Response: any) => {
       if (Response.resultCode === 0) {
         dispatch(addTodoAC(Response.data.item))
       }

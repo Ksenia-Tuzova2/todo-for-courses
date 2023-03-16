@@ -2,7 +2,7 @@ import { TasksType } from "../store/tasksReduser"
 import { instance } from "./instance"
 import { } from "./todoApi"
 
-type ResponcePostTaskType = {
+type ResponceCreateTaskType = {
     data: TasksType,
     resultCode: number,
     messages: Array<string> | string,
@@ -34,8 +34,8 @@ type ResponceReorderTaskType = {
 
 export const taskApi = {
 
-    postTaskRequest(title: string, todolistId: any) {
-        return (instance.post<ResponcePostTaskType>(`/todo-lists/${todolistId}/tasks`, { title: title }
+    сreateTaskRequest(title: string, todolistId: any) {
+        return (instance.post<ResponceCreateTaskType>(`/todo-lists/${todolistId}/tasks`, { title: title }
         ).then((Response) => { return (Response.data) }))
     },
 
@@ -44,17 +44,27 @@ export const taskApi = {
         )
     },
 
-    updateTaskRequest(todolistId: any, taskId: any, title: string) {
+    updateTaskRequest(
+        todolistId: string,
+         taskId: string, 
+         title: string,
+         description: string = 'there is no description yet', 
+         completed:boolean=false,
+         status:number=0,
+         priority:number=0,
+         startDate: string = '02.03.2022',
+        deadline: string = '02.03.2022',
+         ) {
         return instance.put<ResponcePutTaskType>(`/todo-lists/${todolistId}/tasks/${taskId}`,
 
             {
-                title: title,
-                description: ' ',
-                completed: false,
-                status: 0,
-                priority: 0,
-                startDate: '02.03.2022',
-                deadline: '02.03.2022'
+                title,
+                description,
+                completed,
+                status,
+                priority,
+                startDate,
+                deadline,
             },
 
         ).then((Response) => { return (Response.data) })

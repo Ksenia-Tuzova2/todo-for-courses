@@ -1,5 +1,4 @@
 import { v1 } from "uuid"
-import { ToDoListsType } from "../App"
 import { addTaskAC, changeTaskTitleAC, removeTaskAC, tasksReducer } from "./tasksReduser"
 
 export type FilterType = 'All' | 'Active' | 'Completed'

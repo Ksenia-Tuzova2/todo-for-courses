@@ -1,6 +1,3 @@
-import { v1 } from "uuid"
-import { ToDoListsType } from "../App"
-import { addTodoAC, changeFilterAc, toDoListReduser } from "../store/toDoListReduser"
 
 export let a=0
 // test.skip('delete todo list', () => {
