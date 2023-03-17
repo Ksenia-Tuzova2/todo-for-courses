@@ -1,5 +1,4 @@
 import { ThunkAction } from "redux-thunk"
-import { v1 } from "uuid"
 import { todoApi } from "../api/todoApi"
 
 import { taskRequestThunk} from "./tasksReduser"
@@ -15,9 +14,7 @@ export type StateTodoType = {
 export type FilterType = 'All' | 'Active' | 'Completed'
 
 
-
-let inititialState: Array<StateTodoType> = [
-]
+let inititialState: Array<StateTodoType> = []
 
 type ActionTypes = ReturnType<typeof changeFilterAc> | ReturnType<typeof removeTodoAC> | ReturnType<typeof addTodoAC> | ReturnType<typeof changeTodoTitleAC> | ReturnType<typeof setTodoData>
 
@@ -66,15 +63,10 @@ export const removeTodoRequest = (todoId: string): ThunkAction<void, {}, {}, any
   }
 }
 
-type ItemType = {
-  id: string,
-  addedDate: string,
-  order: number,
-  title: string,
-}
 
 
-export const addTodoAC = (item: ItemType) => {
+
+export const addTodoAC = (item: StateTodoType) => {
   return {
     type: 'ADD-TODO-LIST' as const,
     title: item.title,

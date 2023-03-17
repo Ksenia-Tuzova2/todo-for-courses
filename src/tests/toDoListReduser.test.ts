@@ -1,149 +1,204 @@
-
-export let a=0
-// test.skip('delete todo list', () => {
-
-//   let toDoListId1 = v1()
-//   let toDoListId2 = v1()
-//   let toDoListId3 = v1()
-
-//   let startState: Array<ToDoListsType> = [
-//     {
-//       title: 'what to learn',
-//       id: toDoListId1,
-//       filter: 'All'
-//     },
-//     {
-//       title: 'what to buy',
-//       id: toDoListId2,
-//       filter: 'All'
-//     },
-//     {
-//       title: 'what i want',
-//       id: toDoListId3,
-//       filter: 'All'
-//     },
-//   ]
+import { v1 } from "uuid"
+import { addTodoAC, changeFilterAc, changeTodoTitleAC, FilterType, removeTodoAC, StateTodoType, toDoListReduser } from "../store/toDoListReduser"
 
 
+test('delete todo list', () => {
 
-//   const endState = toDoListReduser(startState, {
-//     type: 'REMOVE-TODO-LIST',
-//     id: toDoListId1
-//   })
+    let toDoListId1 = v1()
+    let toDoListId2 = v1()
+    let toDoListId3 = v1()
+    let toDoListId4 = v1()
+  
+    let startState: Array<StateTodoType> = [
+      {
+          title: 'ew',
+          id: toDoListId1,
+          filter: 'All',
+          addedDate: 'string',
+          order: 0,
+        },
+        {
+          title: 'yakon',
+          id: toDoListId2,
+          filter: 'All',
+          addedDate: 'string',
+          order: 0,
+        },
+        {
+          title: 'mrs hollywood',
+          id: toDoListId3,
+          filter: 'All',
+          addedDate: 'string',
+          order: 0,
+        },
+        {
+          title: 'test drive',
+          id: toDoListId4,
+          filter: 'All',
+          addedDate: 'string',
+          order: 0,
+        }
+    ]
 
-//   expect(endState.length).toBe(2)
-//   expect(endState[0].id).toBe(toDoListId2)
+const action=removeTodoAC(toDoListId4)
+  const endState = toDoListReduser(startState, action)
 
-// })
+  expect(endState.length).toBe(2)
+  expect(endState[0].id).toBe(toDoListId3)
 
-// test.skip('add todolist', () => {
+})
 
-//   let toDoListId1 = v1()
-//   let toDoListId2 = v1()
-//   let toDoListId3 = v1()
+test('add todolist', () => {
 
-//   let newToDoListTitle = 'my friends'
+    let toDoListId1 = v1()
+    let toDoListId2 = v1()
+    let toDoListId3 = v1()
+    let toDoListId4 = v1()
+  
+    let startState: Array<StateTodoType> = [
+      {
+          title: 'ew',
+          id: toDoListId1,
+          filter: 'All',
+          addedDate: 'string',
+          order: 0,
+        },
+        {
+          title: 'yakon',
+          id: toDoListId2,
+          filter: 'All',
+          addedDate: 'string',
+          order: 0,
+        },
+        {
+          title: 'mrs hollywood',
+          id: toDoListId3,
+          filter: 'All',
+          addedDate: 'string',
+          order: 0,
+        },
+        {
+          title: 'test drive',
+          id: toDoListId4,
+          filter: 'All',
+          addedDate: 'string',
+          order: 0,
+        }
+    ]
 
-//   let startState: Array<ToDoListsType> = [
-//     {
-//       title: 'what to learn',
-//       id: toDoListId1,
-//       filter: 'All'
-//     },
-//     {
-//       title: 'what to buy',
-//       id: toDoListId2,
-//       filter: 'All'
-//     },
-//     {
-//       title: 'what i want',
-//       id: toDoListId3,
-//       filter: 'All'
-//     },
-//   ]
+  let newItem:StateTodoType = {
+    title: 'ew',
+    id: toDoListId1,
+    filter: 'All',
+    addedDate: 'string',
+    order: 0,
+  }
 
+  const action=addTodoAC(newItem)
 
+  const endState: Array<StateTodoType> = toDoListReduser(startState, action)
 
-//   const endState: any = toDoListReduser(startState, addTodoAC(newToDoListTitle))
-
-//   expect(endState.length).toBe(4)
-//   expect(endState[3]).not.toBe(undefined)
-
-//   expect(endState[3].title).toBe('my friends')
-// })
-
-// test('change title ',()=>{
-
-//   let toDoListId1 = v1()
-//   let toDoListId2 = v1()
-//   let toDoListId3 = v1()
-
-//   let newToDoListTitle='new title'
-
-//   let startState:Array<ToDoListsType>=[
-//     {
-//         title: 'what to learn',
-//         id: toDoListId1,
-//         filter: 'All'
-//     },
-//     {
-//         title: 'what to buy',
-//         id: toDoListId2,
-//         filter: 'All'
-//     },
-//     {
-//         title: 'what i want',
-//         id: toDoListId3,
-//         filter: 'All'
-//     },
-// ]
-
-
-
-// const endState:any=toDoListReduser(startState,{type:'CHANGE-TITLE',
-// id:toDoListId1,
-// newTitle: newToDoListTitle,
-// })
-
-// expect(endState[0].title).toBe(newToDoListTitle)
-// })
-
-// test.skip('change filter ', () => {
+  expect(endState.length).toBe(5)
+  expect(endState[4]).not.toBe(undefined)
+  expect(endState[4].title).toBe('test drive')
+})
 
 
 
-//   let toDoListId1 = v1()
-//   let toDoListId2 = v1()
-//   let toDoListId3 = v1()
 
-//   let newToDoListFilter = 'All'
+test('change title ',()=>{
 
-//   let startState: Array<ToDoListsType> = [
-//     {
-//       title: 'what to learn',
-//       id: toDoListId1,
-//       filter: 'All'
-//     },
-//     {
-//       title: 'what to buy',
-//       id: toDoListId2,
-//       filter: 'All'
-//     },
-//     {
-//       title: 'what i want',
-//       id: toDoListId3,
-//       filter: 'All'
-//     },
-//   ]
+  let newToDoListTitle='new title'
+
+  let toDoListId1 = v1()
+  let toDoListId2 = v1()
+  let toDoListId3 = v1()
+  let toDoListId4 = v1()
+
+  let startState: Array<StateTodoType> = [
+    {
+        title: 'ew',
+        id: toDoListId1,
+        filter: 'All',
+        addedDate: 'string',
+        order: 0,
+      },
+      {
+        title: 'yakon',
+        id: toDoListId2,
+        filter: 'All',
+        addedDate: 'string',
+        order: 0,
+      },
+      {
+        title: 'mrs hollywood',
+        id: toDoListId3,
+        filter: 'All',
+        addedDate: 'string',
+        order: 0,
+      },
+      {
+        title: 'test drive',
+        id: toDoListId4,
+        filter: 'All',
+        addedDate: 'string',
+        order: 0,
+      }
+  ]
+
+  const action = changeTodoTitleAC(newToDoListTitle,toDoListId1 )
+
+const endState:Array<StateTodoType>=toDoListReduser(startState,action)
+
+expect(endState[0].title).toBe(newToDoListTitle)
+})
 
 
-//   const action = changeFilterAc(toDoListId1,newToDoListFilter )
 
-//   const endState: any = toDoListReduser(startState, action)
+test('change filter ', () => {
 
-//   expect(endState[0].filter).toBe('All')
-// })
+  let toDoListId1 = v1()
+  let toDoListId2 = v1()
+  let toDoListId3 = v1()
+  let toDoListId4 = v1()
 
+  let newToDoListFilter:FilterType = 'Completed'
 
-//test dreive developmeny
-//double click? 
+  let startState: Array<StateTodoType> = [
+    {
+        title: 'ew',
+        id: toDoListId1,
+        filter: 'All',
+        addedDate: 'string',
+        order: 0,
+      },
+      {
+        title: 'yakon',
+        id: toDoListId2,
+        filter: 'All',
+        addedDate: 'string',
+        order: 0,
+      },
+      {
+        title: 'mrs hollywood',
+        id: toDoListId3,
+        filter: 'All',
+        addedDate: 'string',
+        order: 0,
+      },
+      {
+        title: 'test drive',
+        id: toDoListId4,
+        filter: 'All',
+        addedDate: 'string',
+        order: 0,
+      }
+  ]
+  const action = changeFilterAc(toDoListId1,newToDoListFilter )
+
+  const endState: any = toDoListReduser(startState, action)
+
+  expect(endState[0].filter).toBe('Completed')
+})
+
+// double click? 
