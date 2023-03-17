@@ -13,9 +13,7 @@ houses:[
 
 let cityzens:number
  
-
-//можно написать скип, если хотим пропустить конкретный скип
-  test.skip('test house type1',()=>{
+ test('test house type1',()=>{
 
   //data be brought in global files
   //action

@@ -108,7 +108,7 @@ export const TaskItem = React.memo(({
                     Priority: <input
                         name='priority'
                         // не понимаю почему намбер не работает
-                        type={'number'}
+                        type={"number"}
                         placeholder='Add priority'
                         step='1'
                         min="0" max="10"

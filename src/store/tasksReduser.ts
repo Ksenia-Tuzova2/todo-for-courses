@@ -1,5 +1,6 @@
 import { ThunkAction } from "redux-thunk"
 import { taskApi } from "../api/tasksApi"
+import { addTodoAC } from "./toDoListReduser"
 
 export enum StatusTaskType{
   New=0,
@@ -50,7 +51,7 @@ type ActionTypes = ReturnType<typeof deleteListAC>
   | ReturnType<typeof addTaskAC> |
   ReturnType<typeof changeChecBoxAC> |
   ReturnType<typeof changeTaskTitleAC> |
-  ReturnType<typeof setTasks>
+  ReturnType<typeof setTasks>| ReturnType<typeof addTodoAC>
 
 export const setTasks = (data: any, toDoId: string) => {
   return {
@@ -178,6 +179,10 @@ export const tasksReducer = (
   action: ActionTypes
 ): StateTasksType => {
   switch (action.type) {
+
+    case ('ADD-TODO-LIST'):
+      return {...state, [action.id]:[]}
+      
     case ('SET_TASKS'):
       return { ...state, [action.toDoId]: action.data }
 

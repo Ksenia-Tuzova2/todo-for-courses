@@ -16,7 +16,11 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 
 let inititialState: Array<StateTodoType> = []
 
-type ActionTypes = ReturnType<typeof changeFilterAc> | ReturnType<typeof removeTodoAC> | ReturnType<typeof addTodoAC> | ReturnType<typeof changeTodoTitleAC> | ReturnType<typeof setTodoData>
+type ActionTypes = ReturnType<typeof changeFilterAc> | 
+ReturnType<typeof removeTodoAC> | 
+ReturnType<typeof addTodoAC> |
+ ReturnType<typeof changeTodoTitleAC> | 
+ ReturnType<typeof setTodoData>
 
 
 export const setTodoData = (data: any) => {
@@ -65,7 +69,6 @@ export const removeTodoRequest = (todoId: string): ThunkAction<void, {}, {}, any
 
 
 
-
 export const addTodoAC = (item: StateTodoType) => {
   return {
     type: 'ADD-TODO-LIST' as const,
@@ -97,13 +100,24 @@ export const changeTodoTitleAC = (newTitle: string, id: string) => {
 }
 
 //важно писать после скобок с аргументами двоеточие
-// и тип того, что должен вернуть редьюсер - ведь это иммутабельная функция, а значит, что мы должны вернуть ту же структуру, что получили
+// и тип того, что должен вернуть редьюсер -
+// ведь это иммутабельная функция, а значит,
+//что мы должны вернуть ту же структуру, что получили
 
 export const toDoListReduser = (state: Array<StateTodoType> = inititialState, action: ActionTypes): Array<StateTodoType> => {
   switch (action.type) {
     
     case ('SET_DATA'):
-      return [...action.data]
+
+    //дописываем сюда фильтр как недостающее с сервера свойство 
+    //фильтр локальная сущность
+      return action.data.map((el:any)=> {
+        return{
+        ...el, 
+        filter:'All',
+      }
+    }
+    )
 
     case ('REMOVE-TODO-LIST'):
       return state.filter(el => el.id !== action.id);

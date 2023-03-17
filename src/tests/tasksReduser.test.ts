@@ -1,11 +1,74 @@
 import { v1 } from "uuid"
 import { addTaskAC, changeTaskTitleAC, removeTaskAC, StateTasksType, tasksReducer } from "../store/tasksReduser"
 
+let toDoListId1 = v1()
+let toDoListId2 = v1()
 
+let taskId = v1()
 
-test('correct task should be deleted from correct array', () => {
+let startState: StateTasksType = {
+    [toDoListId1]: [
+      
+        {
+            id: v1(),
+            description: '',
+            title: 'string',
+            completed: false,
+            status: 1,
+            priority: 0,
+            startDate: 'string',
+            deadline: 'string',
+            todoListId: 'string',
+            order: 1,
+            addedDate: 'string',
+        },
+        {
+            id: v1(),
+            description: '',
+            title: 'ew',
+            completed: false,
+            status: 1,
+            priority: 0,
+            startDate: 'string',
+            deadline: 'string',
+            todoListId: 'string',
+            order: 1,
+            addedDate: 'string',
+        },
+    ],
+    [toDoListId2]: [
+      
+        {
+            id: taskId,
+            description: '',
+            title: 'string',
+            completed: false,
+            status: 1,
+            priority: 0,
+            startDate: 'string',
+            deadline: 'string',
+            todoListId: 'string',
+            order: 1,
+            addedDate: 'string',
+        },
+        {
+            id: v1(),
+            description: '',
+            title: 'ew',
+            completed: false,
+            status: 1,
+            priority: 0,
+            startDate: 'string',
+            deadline: 'string',
+            todoListId: 'string',
+            order: 1,
+            addedDate: 'string',
+        },
+]
+       
+}
 
-
+beforeEach(()=>{
     let toDoListId1 = v1()
     let toDoListId2 = v1()
 
@@ -72,6 +135,9 @@ test('correct task should be deleted from correct array', () => {
     ]
            
     }
+})
+
+test('correct task should be deleted from correct array', () => {
 
     const action = removeTaskAC(toDoListId2, taskId)
     const endState = tasksReducer(startState, action)
@@ -83,59 +149,6 @@ test('correct task should be deleted from correct array', () => {
 
 
 test('new task should be added for correct array', () => {
-
-
-    let toDoListId1 = v1()
-    let toDoListId2 = v1()
-
-    let startState: StateTasksType = {
-        [toDoListId1]: [
-          
-            {
-                id: v1(),
-                description: '',
-                title: 'string',
-                completed: false,
-                status: 1,
-                priority: 0,
-                startDate: 'string',
-                deadline: 'string',
-                todoListId: 'string',
-                order: 1,
-                addedDate: 'string',
-            },
-           
-        ],
-        [toDoListId2]: [
-          
-            {
-                id: v1(),
-                description: '',
-                title: 'string',
-                completed: false,
-                status: 1,
-                priority: 0,
-                startDate: 'string',
-                deadline: 'string',
-                todoListId: 'string',
-                order: 1,
-                addedDate: 'string',
-            },
-            {
-                id: v1(),
-                description: '',
-                title: 'ew',
-                completed: false,
-                status: 1,
-                priority: 0,
-                startDate: 'string',
-                deadline: 'string',
-                todoListId: 'string',
-                order: 1,
-                addedDate: 'string',
-            },
-    ]       
-    }
 
     let newTask= {
         id: v1(),
@@ -153,7 +166,7 @@ test('new task should be added for correct array', () => {
     const action = addTaskAC(newTask, toDoListId1)
     const endState = tasksReducer(startState, action)
 
-    expect(endState[toDoListId1].length).toBe(2)
+    expect(endState[toDoListId1].length).toBe(3)
     expect(endState[toDoListId2].length).toBe(2)
     expect(endState[toDoListId1][0].completed).toBe(false)
     expect(endState[toDoListId1][0].title).toBe('jucie')
@@ -161,60 +174,6 @@ test('new task should be added for correct array', () => {
 
 
 test('task title should be changed for correct array', () => {
-
-
-    let toDoListId1 = v1()
-    let toDoListId2 = v1()
-
-
-    let startState: StateTasksType = {
-        [toDoListId1]: [
-          
-            {
-                id: v1(),
-                description: '',
-                title: 'string',
-                completed: false,
-                status: 1,
-                priority: 0,
-                startDate: 'string',
-                deadline: 'string',
-                todoListId: 'string',
-                order: 1,
-                addedDate: 'string',
-            },
-           
-        ],
-        [toDoListId2]: [
-          
-            {
-                id: v1(),
-                description: '',
-                title: 'string',
-                completed: false,
-                status: 1,
-                priority: 0,
-                startDate: 'string',
-                deadline: 'string',
-                todoListId: 'string',
-                order: 1,
-                addedDate: 'string',
-            },
-            {
-                id: v1(),
-                description: '',
-                title: 'ew',
-                completed: false,
-                status: 1,
-                priority: 0,
-                startDate: 'string',
-                deadline: 'string',
-                todoListId: 'string',
-                order: 1,
-                addedDate: 'string',
-            },
-    ]       
-    }
 
     const action = changeTaskTitleAC('MilkiWay', toDoListId1, startState[toDoListId1][0].id)
     const endState = tasksReducer(startState, action)
@@ -224,3 +183,4 @@ test('task title should be changed for correct array', () => {
 })
 
 
+export let a=1
