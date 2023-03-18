@@ -2,19 +2,19 @@ import { ThunkAction } from "redux-thunk"
 import { taskApi } from "../api/tasksApi"
 import { addTodoAC } from "./toDoListReduser"
 
-export enum StatusTaskType{
-  New=0,
-  InProgress=1,
-  Completed=2,
-  Draft=3,
+export enum StatusTaskType {
+  New = 0,
+  InProgress = 1,
+  Completed = 2,
+  Draft = 3,
 }
 
-export enum PriorityTaskType{
-  Low=0,
-  Middle=1,
-  Hi=2,
-  Urgently=3,
-  Later=4,
+export enum PriorityTaskType {
+  Low = 0,
+  Middle = 1,
+  Hi = 2,
+  Urgently = 3,
+  Later = 4,
 }
 
 export type TasksType = {
@@ -51,13 +51,13 @@ type ActionTypes = ReturnType<typeof deleteListAC>
   | ReturnType<typeof addTaskAC> |
   ReturnType<typeof changeChecBoxAC> |
   ReturnType<typeof changeTaskTitleAC> |
-  ReturnType<typeof setTasks>| ReturnType<typeof addTodoAC>
+  ReturnType<typeof setTasks> | ReturnType<typeof addTodoAC>
 
-export const setTasks = (data: any, toDoId: string) => {
+export const setTasks = (data: Array<TasksType>, toDoId: string) => {
   return {
     type: 'SET_TASKS',
-    data: data,
-    toDoId: toDoId,
+    data,
+    toDoId,
   } as const
 }
 
@@ -65,8 +65,6 @@ export const taskRequestThunk = (
   toDoId: string
 ): ThunkAction<void, {}, {}, any> => {
   return function (dispatch: any): void {
-
-    console.log('task request thunk');
 
     taskApi.getTaskRequest(toDoId).then((data: any) => {
 
@@ -83,8 +81,8 @@ export const taskRequestThunk = (
 export const removeTaskAC = (toDoId: string, taskId: string) => {
   return {
     type: 'REMOVE-TASK' as const,
-    toDoId: toDoId,
-    taskId: taskId
+    toDoId,
+    taskId,
   } as const
 }
 
@@ -112,7 +110,7 @@ export const addTaskAC = (newTask: TasksType, toDoId: string) => {
 
 export const addTaskRequest = (
   title: string,
-  todoId: any
+  todoId: string,
 ): ThunkAction<void, {}, {}, any> => {
   return function (dispatch: any): void {
     taskApi.сreateTaskRequest(title, todoId).then((data: any) => {
@@ -128,9 +126,9 @@ export const changeChecBoxAC = (newFilter: boolean, toDoId: string, taskId: stri
 
   return {
     type: 'CHANGE-CHECKBOX' as const,
-    toDoId: toDoId,
-    taskId: taskId,
-    newFilter: newFilter
+    toDoId,
+    taskId,
+    newFilter
   } as const
 }
 
@@ -141,9 +139,9 @@ export const changeTaskTitleAC = (
 
   return {
     type: 'CHANGE-TASK-TITLE' as const,
-    toDoId: toDoId,
-    taskId: taskId,
-    newName: newName,
+    toDoId,
+    taskId,
+    newName,
   }
 
 }
@@ -161,12 +159,55 @@ export const changeTaskTitleRequest = (
   }
 }
 
+//меняем чекбокс для таски
+// export const changeTaskCheckBoxRequest = (
+//   toDoId: string,
+//   taskId: string,
+//   status: StatusTaskType
+// ): ThunkAction<void, {}, {}, any> => {
+
+//   return function (dispatch: any) {
+
+//     //собираем здесь таску 
+//     let task:TasksType={
+//       id: taskId,
+//       description: 'there is no description yet';
+//       title: string;
+//       completed: boolean;
+//       status: StatusTaskType;
+//       priority: PriorityTaskType;
+//       startDate: string;
+//       deadline: string;
+//       todoListId: string;
+//       order: number;
+//       addedDate: string;
+//   }
+
+
+//     taskApi.updateTaskRequest(
+//       todolistId,
+//       taskId,
+//       title,
+//       description,
+//       completed,
+//       status,
+//       priority,
+//       startDate,
+//       deadline
+//     ).then((data: any) => {
+//       dispatch(changeChecBoxAC(newFilter, toDoId, taskId))
+//     })
+//   }
+// }
+
 export const deleteListAC = (toDoId: string) => {
   return {
     type: 'DELETE-LIST' as const,
     toDoId: toDoId,
   } as const
 }
+
+
 
 
 //но так как редюсер должен быть иммутабельной функцией 
@@ -181,8 +222,8 @@ export const tasksReducer = (
   switch (action.type) {
 
     case ('ADD-TODO-LIST'):
-      return {...state, [action.id]:[]}
-      
+      return { ...state, [action.id]: [] }
+
     case ('SET_TASKS'):
       return { ...state, [action.toDoId]: action.data }
 

@@ -2,6 +2,10 @@ import { PriorityTaskType, StatusTaskType, TasksType } from "../store/tasksRedus
 import { instance } from "./instance"
 import { } from "./todoApi"
 
+//пофиксить типы - смотреть что приходит через дебаггер
+//новая таска:задизейблить кнопки пока делается запрос 
+
+
 type ResponceCreateTaskType = {
     data: TasksType,
     resultCode: number,
@@ -36,7 +40,9 @@ export const taskApi = {
 
     сreateTaskRequest(title: string, todolistId: any) {
         return (instance.post<ResponceCreateTaskType>(`/todo-lists/${todolistId}/tasks`, { title: title }
-        ).then((Response) => { return (Response.data) }))
+        ).then((Response) => { 
+            return (Response.data) 
+        }))
     },
 
     getTaskRequest(todoListId: string) {
@@ -52,12 +58,12 @@ export const taskApi = {
          completed:boolean=false,
          status:StatusTaskType=0,
          priority:PriorityTaskType=0,
-         startDate: string = '02.03.2022',
-        deadline: string = '02.03.2022',
+         startDate: string = "2023-03-18T09:26:04.253",
+        deadline: string = "2023-04-18T09:26:04.253",
          ) {
         return instance.put<ResponcePutTaskType>(`/todo-lists/${todolistId}/tasks/${taskId}`,
 
-            {
+        {
                 title,
                 description,
                 completed,
@@ -66,7 +72,6 @@ export const taskApi = {
                 startDate,
                 deadline,
             },
-
         ).then((Response) => { return (Response.data) })
     },
 

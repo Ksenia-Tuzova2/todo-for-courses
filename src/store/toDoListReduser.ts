@@ -104,7 +104,8 @@ export const changeTodoTitleAC = (newTitle: string, id: string) => {
 // ведь это иммутабельная функция, а значит,
 //что мы должны вернуть ту же структуру, что получили
 
-export const toDoListReduser = (state: Array<StateTodoType> = inititialState, action: ActionTypes): Array<StateTodoType> => {
+export const toDoListReduser = (state: Array<StateTodoType> = inititialState,
+   action: ActionTypes): Array<StateTodoType> => {
   switch (action.type) {
     
     case ('SET_DATA'):

@@ -1,5 +1,5 @@
 import { v1 } from "uuid";
-import { deleteListAC, StateTasksType, tasksReducer, TasksType } from "../store/tasksReduser";
+import { deleteListAC, setTasks, StateTasksType, tasksReducer, TasksType } from "../store/tasksReduser";
 import { addTodoAC, StateTodoType, toDoListReduser } from "../store/toDoListReduser";
 
 
@@ -244,4 +244,44 @@ test('property with todolist id should be deleted', () => {
 
     expect(keys.length).toBe(1)
     expect(endTaskState[toDoListId2]).toBeUndefined()
+})
+
+test('want to set tasks way giving todoid', () => {
+
+
+  const item= [
+      
+    {
+        id: v1(),
+        description: '',
+        title: 'string',
+        completed: false,
+        status: 1,
+        priority: 0,
+        startDate: 'string',
+        deadline: 'string',
+        todoListId: 'string',
+        order: 1,
+        addedDate: 'string',
+    },
+    {
+        id: v1(),
+        description: '',
+        title: 'ew',
+        completed: false,
+        status: 1,
+        priority: 0,
+        startDate: 'string',
+        deadline: 'string',
+        todoListId: 'string',
+        order: 1,
+        addedDate: 'string',
+    },
+]
+
+  const action = setTasks(item, toDoListId2)
+
+  const endTaskState = tasksReducer(startTaskState, action)
+  expect(endTaskState[toDoListId2].length).toBe(2)
+
 })

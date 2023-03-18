@@ -175,7 +175,7 @@ test('new task should be added for correct array', () => {
 
 test('task title should be changed for correct array', () => {
 
-    const action = changeTaskTitleAC('MilkiWay', toDoListId1, startState[toDoListId1][0].id)
+    const action = changeTaskTitleAC( toDoListId1, startState[toDoListId1][0].id,'MilkiWay')
     const endState = tasksReducer(startState, action)
 
     expect(endState[toDoListId1][0].title).toBe('MilkiWay')
