@@ -1,22 +1,21 @@
-import { Button, IconButton, TextField } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import { IconButton, TextField } from '@mui/material';
 import React, { useState, ChangeEvent, KeyboardEvent } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 type NewType = {
     addItem: (title: string) => void
-};
+}
 
 export type AddItemFormType = NewType
 
 
-export const AddItemForm=React.memo(({ addItem}: AddItemFormType)=> {
+export const AddItemForm = React.memo(({ addItem }: AddItemFormType) => {
 
-    console.log('form  rerender');
     let [value, setValue] = useState('')
-
     let [err, setErr] = useState('')
+    const [disabledButtonState, setDisabledButtonState] = useState(false)
+
 
 
 
@@ -29,10 +28,12 @@ export const AddItemForm=React.memo(({ addItem}: AddItemFormType)=> {
 
 
     const plusButton = () => {
-    
+
         if (value.trim() !== '') {
+            setDisabledButtonState(true)
             addItem(value.trim());
             setValue('');
+            setDisabledButtonState(false)
         } else setErr('err')
     }
 
@@ -49,11 +50,13 @@ export const AddItemForm=React.memo(({ addItem}: AddItemFormType)=> {
                     value={value}
                     onChange={onChabgeHandlerElement
                     } />
-                <IconButton onClick={plusButton}
-                onKeyDown={()=>onKeyDownHandler}>
-                    <AddCircleIcon   />
+                <IconButton
+                    onClick={plusButton}
+                    disabled={disabledButtonState}
+                    onKeyDown={() => onKeyDownHandler}>
+                    <AddCircleIcon />
                 </IconButton>
-        
+
             </div>
         </div>
     );

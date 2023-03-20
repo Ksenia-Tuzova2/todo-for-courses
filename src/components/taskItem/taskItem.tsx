@@ -23,6 +23,9 @@ export const TaskItem = React.memo(({
     id
 }: PropsTaskType & TasksType) => {
 
+    const[disabledButtonState,setDisabledButtonState ]=useState(false)
+
+
     const dispatch = UseAppDispatch()
     const [editMode, setEditMode] = useState<boolean>(false)
 
@@ -65,7 +68,7 @@ export const TaskItem = React.memo(({
         setEditMode(false)
 
         //здесь что-то не то
-        dispatch(changeTaskTitleRequest(id, todoListId, e.currentTarget.value))
+        dispatch(changeTaskTitleRequest( todoListId,id, e.currentTarget.value))
 
     }, [dispatch])
 
@@ -144,15 +147,20 @@ export const TaskItem = React.memo(({
             )}
 
             <Checkbox
+            disabled={disabledButtonState} 
                 checked={completed}
                 onChange={(e) => changeCheckBoxHandler(e)}
             />
-            <IconButton aria-label="delete"
+            <IconButton 
+            disabled={disabledButtonState} 
+            aria-label="delete"
                 onClick={() => onDeleteHandler(id)}>
                 <Delete />
             </IconButton>
 
-            <IconButton aria-label="create"
+            <IconButton 
+            aria-label="create"
+            disabled={disabledButtonState} 
                 onClick={() => changeEditModeHandler()}
                 onBlur={() => onBlurCallback}
             >

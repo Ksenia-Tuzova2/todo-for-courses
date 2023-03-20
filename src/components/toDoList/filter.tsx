@@ -1,4 +1,4 @@
-import {  useCallback } from 'react';
+import {  useCallback, useState } from 'react';
 import { Button} from '@mui/material';
 import {  UseAppDispatch } from '../../store/redux-store';
 import { changeFilterAc, FilterType } from '../../store/toDoListReduser';
@@ -15,13 +15,19 @@ export const Filter=React.memo(({
     todoId }: FilterPropsType)=> {
 
     let dispatch = UseAppDispatch()
+    const[disabledButtonState,setDisabledButtonState ]=useState(false)
+
+
+
 
     
-    const changeFilterHandler = useCallback(function(param: FilterType){
-        dispatch(changeFilterAc(todoId, param))
-    },[dispatch])
+    const changeFilterHandler = useCallback((param: FilterType)=>{
 
-    console.log('rerender filters');
+        setDisabledButtonState(true)
+        dispatch(changeFilterAc(todoId, param))
+        setDisabledButtonState(false)
+ 
+    },[])
     
 
 
@@ -29,9 +35,26 @@ export const Filter=React.memo(({
     return (
       
                 <div>
-                    <Button color={'secondary'} variant={filter === 'All' ? 'outlined' : 'text'} onClick={() => changeFilterHandler('All')}>All</Button>
-                    <Button variant={filter === 'Active' ? 'outlined' : 'text'} onClick={() => changeFilterHandler('Active')}>Active</Button>
-                    <Button variant={filter === 'Completed' ? 'outlined' : 'text'} onClick={() => {changeFilterHandler('Completed')}}>Completed</Button>
+                    <Button  
+                    disabled={disabledButtonState}  
+                    color={'secondary'} 
+                    variant={filter === 'All' ? 'outlined' : 'text'} 
+                    onClick={() => changeFilterHandler('All')}>
+                        All
+                    </Button>
+
+                    <Button 
+                     disabled={disabledButtonState} 
+                    variant={filter === 'Active' ? 'outlined' : 'text'} 
+                    onClick={() => changeFilterHandler('Active')}>Active
+                    </Button>
+
+                    <Button
+                     disabled={disabledButtonState} 
+                    variant={filter === 'Completed' ? 'outlined' : 'text'} 
+                    onClick={() => {changeFilterHandler('Completed')}} >
+                        Completed
+                    </Button>
 
                 </div>
            

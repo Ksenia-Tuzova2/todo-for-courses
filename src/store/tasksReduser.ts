@@ -152,7 +152,7 @@ export const changeTaskTitleRequest = (
   newName: string
 ): ThunkAction<void, {}, {}, any> => {
   return function (dispatch: any) {
-    taskApi.updateTaskRequest(toDoId, taskId, newName,
+    taskApi.updateTaskRequest(toDoId, taskId, newName
     ).then((data: any) => {
       dispatch(changeTaskTitleAC(toDoId, taskId, newName))
     })
