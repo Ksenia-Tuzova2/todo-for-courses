@@ -1,11 +1,7 @@
 import { ThunkAction } from "redux-thunk"
 import { authApi } from "../api/authApi"
 
-const SET_USER_DATA='SET_USER_DATA'
-const SET_FETCH='SET_FETCH'
-
 //не использовать расширение жсх для редьюсеров - могут быть баги
-
 
 export type AuthInitStateType = {
   id: number|null,
@@ -35,11 +31,11 @@ export const authReduser = (state: AuthInitStateType = SearchUserInitState, acti
   switch (action.type) {
    
   
-    case SET_USER_DATA: {
+    case( "SET_USER_DATA"): {
       //мы перезатираем копию инишал стейта новым значением дата - там тоже есть логин айди и все что нужно стейту
       return { ...state, ...action.data , isAuth:true,};
     }
-    case SET_FETCH: {
+    case ("SET_FETCH"): {
       return { ...state, isFetching:action.isFetching };
     }
     default: {
@@ -52,13 +48,19 @@ type AuthAciontsType = ReturnType<typeof setUserData> | ReturnType<typeof setFet
 
 export const setUserData = ({id, email, login}:DataType) => {
 
-  return { type: SET_USER_DATA , data:{id, email, login} } as const
+  return { 
+    type: "SET_USER_DATA" as const,
+     data:{id, email, login} } as const
 }
 
 
 export const setFetch = (isFetching: boolean) => {
-  return { type: SET_FETCH, isFetching } as const
+  return { 
+    type: "SET_FETCH" as const,
+   isFetching 
+  } as const
 }
+
 
 
 

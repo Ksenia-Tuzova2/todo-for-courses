@@ -17,11 +17,13 @@ export const userReduser = (state: StateType, action: ActionType) => {
       let stateCopy={...state}
       stateCopy.age=state.age+1
       return stateCopy;
+
       case ('INCREMENT-CHILDREN-COUNT'):
         return {...state, children:state.children+1};
+        
         case ('CHANGE-NAME'):
           return {...state, name:state.name='Ksenia'};
         default: state
-        // throw new Error('I dont understand the action type')
+    
   }
 }
