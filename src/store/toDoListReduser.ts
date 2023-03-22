@@ -57,15 +57,7 @@ export const removeTodoAC = (id: string) => {
   } as const
 }
 
-export const removeTodoRequest = (todoId: string): ThunkAction<void, {}, {}, any> => {
-  return function (dispatch: any) {
-    todoApi.deleteTodoRequest(todoId).then((data: any) => {
-      if (data.resultCode === 0) {
-        dispatch(removeTodoAC(todoId))
-      }
-    })
-  }
-}
+
 
 
 
@@ -81,7 +73,10 @@ export const addTodoAC = (item: StateTodoType) => {
 
 
 
-export const addTodoRequest = (title: string): ThunkAction<void, {}, {}, any> => {
+export const addTodoRequest = (title: string): ThunkAction<
+void, {}, {}, any
+// void, RootState, unknown, AnyAction
+> => {
   return function (dispatch: any): void {
     todoApi.createTodoRequest(title).then((Response: any) => {
       if (Response.resultCode === 0) {
@@ -90,6 +85,8 @@ export const addTodoRequest = (title: string): ThunkAction<void, {}, {}, any> =>
     })
   }
 }
+
+
 
 export const changeTodoTitleAC = (newTitle: string, id: string) => {
   return {
