@@ -59,7 +59,16 @@ export const removeTodoAC = (id: string) => {
 
 
 
-
+export const removeTodoRequest = (todolistId:string): ThunkAction<void, {}, {}, any> => {
+  return function (dispatch: any): void {
+    todoApi.deleteTodoRequest(todolistId).then((data: any) => {
+      dispatch(removeTodoAC(todolistId))
+      data.forEach((todo: StateTodoType) => {
+        dispatch(taskRequestThunk(todo.id))
+      });
+    })
+  }
+}
 
 export const addTodoAC = (item: StateTodoType) => {
   return {

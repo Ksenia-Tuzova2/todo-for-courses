@@ -70,7 +70,7 @@ export const taskApi = {
             title: title,
             description: 'there is no description yet',
             completed:false,
-            status: 0,
+            status: 1,
             priorit: 0,
             startDate: "2023-03-18T09:26:04.253",
             deadline: "2023-04-18T09:26:04.253",

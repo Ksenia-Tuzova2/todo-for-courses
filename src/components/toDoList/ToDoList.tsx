@@ -36,16 +36,15 @@ const {filter, title}=useSelector<Rootstate, StateTodoType>(
     }
 
 
-    const onDeleteTodoHandler = useCallback(function(todoId: string){
+    const onDeleteTodoHandler = useCallback((todoId: string)=>{
         dispatch(removeTodoRequest(todoId))
-        // dispatch(removeTasksRequest(todoId))
-    },[dispatch])
+    },[])
 
 
    
     const onDeleteTaskHandler = useCallback((idItem: string)=>{
         dispatch(removeTaskRequest(todoId, idItem))
-    },[dispatch])
+    },[])
 
 
     let mapFunction = sortedArray?.map((el: TasksType) => {
