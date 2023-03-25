@@ -60,6 +60,7 @@ export const taskApi = {
         )
     },
 
+    //новая задача - изменение чекбокса на сервере
     updateTaskRequest(
         todolistId: string,
         taskId: string,
