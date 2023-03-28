@@ -11,13 +11,16 @@ import Grid from '@mui/material/Grid';
 import { UseAppDispatch } from './store/redux-store';
 import { addTodoRequest, todoDataRequest} from './store/toDoListReduser';
 import { ToDoListMap } from './components/toDoList/ToDoListMap';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { authUserDataRequest } from './store/authReduser';
+import { LoadingSpiner } from './loadingSpiner/loadingSpiner';
 
 
 
 
 function App() {    
+
+    let [isFetching,setIsFetching]=useState(false)
 
     const dispatch = UseAppDispatch();
 
@@ -26,13 +29,23 @@ function App() {
     }
 
     useEffect(() => {
+        setIsFetching(true)
         dispatch(authUserDataRequest())
        dispatch(todoDataRequest())
+       setIsFetching(false)
       },[])
+
+      const showDownload = () => {
+        if (isFetching === true) {
+          return <LoadingSpiner />
+        } else return <></>
+      }
       
     return (
         <div className="App">
-            <AppBar position='static'>
+           
+           {(isFetching===false)&&<>
+           <AppBar position='static'>
                 <Toolbar>
                     <IconButton 
                     edge='start' 
@@ -57,6 +70,9 @@ function App() {
                     <ToDoListMap />
                 </Grid>
             </Container>
+            </>
+}
+            {(isFetching===true)&&showDownload()}
         </div>
     );
 }

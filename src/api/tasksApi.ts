@@ -26,15 +26,15 @@ type ResponcePutTaskType = {
 }
 
 type ResponceDeleteTaskType = {
-    config:any,
+    config: any,
     data: {
         data: any,
-        messages:Array<string>,
-        resultCode:number,
-        fieldsErrors: Array<string>, 
+        messages: Array<string>,
+        resultCode: number,
+        fieldsErrors: Array<string>,
     }
-    headers:any,
-    request:any,
+    headers: any,
+    request: any,
     status: number,
     statusText: string,
 
@@ -60,18 +60,16 @@ export const taskApi = {
         )
     },
 
-    //новая задача - изменение чекбокса на сервере
-    //доделать портфолио
     updateTaskRequest(
         todolistId: string,
         taskId: string,
         title: string,
-    
+
     ) {
         const test = {
             title: title,
             description: 'there is no description yet',
-            completed:false,
+            completed: false,
             status: 1,
             priorit: 0,
             startDate: "2023-03-18T09:26:04.253",
@@ -82,16 +80,17 @@ export const taskApi = {
                 ...test
             },
         ).then((Response) => {
-          
-            return (Response.data) })
+
+            return (Response.data)
+        })
     },
 
     deleteTaskRequest(todolistId: any, taskId: any) {
         //как это пр
         return instance.delete<ResponceDeleteTaskType>(`/todo-lists/${todolistId}/tasks/${taskId}`,
-        ).then((Response) => { 
+        ).then((Response) => {
             debugger
-            return (Response.data) 
+            return (Response.data)
         })
     },
 
