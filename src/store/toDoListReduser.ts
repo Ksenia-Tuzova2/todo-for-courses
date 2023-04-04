@@ -13,7 +13,6 @@ export type StateTodoType = {
 
 export type FilterType = 'All' | 'Active' | 'Completed'
 
-
 let inititialState: Array<StateTodoType> = []
 
 type ActionTypes = ReturnType<typeof changeFilterAc> | 
