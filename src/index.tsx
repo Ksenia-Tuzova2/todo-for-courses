@@ -1,15 +1,20 @@
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorker from './app/serviceWorker';
 import { store } from './store/redux-store';
 import { Provider } from 'react-redux';
 import { createRoot } from 'react-dom/client';
 import { dividerClasses } from '@mui/material';
 
 
-    const container = document.getElementById('root');
-    const root = createRoot(container!); 
-    root.render(<Provider store={store}><App /></Provider>);
+import App from './app/App';
+
+
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(
+    <Provider store={store}>
+        <App />
+    </Provider>
+);
 
 
 // If you want your app to work offline and load faster,

@@ -1,7 +1,8 @@
 import { ThunkAction } from "redux-thunk"
 import { todoApi } from "../api/todoApi"
 
-import { taskRequestThunk} from "./tasksReduser"
+import { taskRequestThunk } from "./tasksReduser"
+import { log } from "console"
 
 export type StateTodoType = {
   title: string,
@@ -15,11 +16,11 @@ export type FilterType = 'All' | 'Active' | 'Completed'
 
 let inititialState: Array<StateTodoType> = []
 
-type ActionTypes = ReturnType<typeof changeFilterAc> | 
-ReturnType<typeof removeTodoAC> | 
-ReturnType<typeof addTodoAC> |
- ReturnType<typeof changeTodoTitleAC> | 
- ReturnType<typeof setTodoData>
+type ActionTypes = ReturnType<typeof changeFilterAc> |
+  ReturnType<typeof removeTodoAC> |
+  ReturnType<typeof addTodoAC> |
+  ReturnType<typeof changeTodoTitleAC> |
+  ReturnType<typeof setTodoData>
 
 
 export const setTodoData = (data: any) => {
@@ -56,9 +57,7 @@ export const removeTodoAC = (id: string) => {
   } as const
 }
 
-
-
-export const removeTodoRequest = (todolistId:string): ThunkAction<void, {}, {}, any> => {
+export const removeTodoRequest = (todolistId: string): ThunkAction<void, {}, {}, any> => {
   return function (dispatch: any): void {
     todoApi.deleteTodoRequest(todolistId).then((data: any) => {
       dispatch(removeTodoAC(todolistId))
@@ -82,7 +81,7 @@ export const addTodoAC = (item: StateTodoType) => {
 
 
 export const addTodoRequest = (title: string): ThunkAction<
-void, {}, {}, any
+  void, {}, {}, any
 // void, RootState, unknown, AnyAction
 > => {
   return function (dispatch: any): void {
@@ -110,20 +109,20 @@ export const changeTodoTitleAC = (newTitle: string, id: string) => {
 //что мы должны вернуть ту же структуру, что получили
 
 export const toDoListReduser = (state: Array<StateTodoType> = inititialState,
-   action: ActionTypes): Array<StateTodoType> => {
+  action: ActionTypes): Array<StateTodoType> => {
   switch (action.type) {
-    
+
     case ('SET_DATA'):
 
-    //дописываем сюда фильтр как недостающее с сервера свойство 
-    //фильтр локальная сущность
-      return action.data.map((el:any)=> {
-        return{
-        ...el, 
-        filter:'All',
+      //дописываем сюда фильтр как недостающее с сервера свойство 
+      //фильтр локальная сущность
+      return action.data.map((el: any) => {
+        return {
+          ...el,
+          filter: 'All',
+        }
       }
-    }
-    )
+      )
 
     case ('REMOVE-TODO-LIST'):
       return state.filter(el => el.id !== action.id);
@@ -138,7 +137,7 @@ export const toDoListReduser = (state: Array<StateTodoType> = inititialState,
       }]
 
     case ('CHANGE-TITLE'):
-      //не работает
+      //пофиксить эту функцию редактирования тайтла туду листа
       const todolist = state.find(el => el.id === action.id)
       if (todolist) {
         console.log(todolist.title = action.newTitle);
@@ -149,8 +148,8 @@ export const toDoListReduser = (state: Array<StateTodoType> = inititialState,
 
     case ('CHANGE-FILTER'):
       return state.map(todo => {
-        if(todo.id !== action.id) return todo
-        return {...todo, filter: action.filter}
+        if (todo.id !== action.id) return todo
+        return { ...todo, filter: action.filter }
       })
 
 
