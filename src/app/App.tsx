@@ -17,7 +17,7 @@ import { authUserDataRequest } from '../store/authReduser';
 import { LoadingSpiner } from '../feautures/loadingSpiner/loadingSpiner';
 
 
-
+//пытаюсь в архитектуру
 
 function App() {
 
