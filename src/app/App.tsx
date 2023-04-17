@@ -14,7 +14,7 @@ import { UseAppDispatch } from '../store/redux-store';
 import { addTodoRequest, todoDataRequest } from '../store/toDoListReduser';
 import { ToDoListMap } from '../components/toDoList/ToDoListMap';
 import { authUserDataRequest } from '../store/authReduser';
-import { LoadingSpiner } from '../components/loadingSpiner/loadingSpiner';
+import { LoadingSpiner } from '../feautures/loadingSpiner/loadingSpiner';
 
 
 
