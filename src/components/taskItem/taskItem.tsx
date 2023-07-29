@@ -23,7 +23,7 @@ export const TaskItem = React.memo(({
     id
 }: PropsTaskType & TasksType) => {
 
-    const[disabledButtonState,setDisabledButtonState ]=useState(false)
+    const [disabledButtonState, setDisabledButtonState] = useState(false)
 
 
     const dispatch = UseAppDispatch()
@@ -68,7 +68,7 @@ export const TaskItem = React.memo(({
         setEditMode(false)
 
         //здесь что-то не то
-        dispatch(changeTaskTitleRequest( todoListId,id, e.currentTarget.value))
+        dispatch(changeTaskTitleRequest(todoListId, id, e.currentTarget.value))
 
     }, [dispatch])
 
@@ -81,7 +81,7 @@ export const TaskItem = React.memo(({
     return (
         <li className={completed ? 'completed' : ''}>
 
-            {editMode ? (
+            {editMode(
                 <>
                     <input
                         name='order'
@@ -94,13 +94,13 @@ export const TaskItem = React.memo(({
                         value={orderInputValue}
                         onBlur={onBlurCallback}
                     />
-                    
+
                     <input
-                    placeholder='Set title'
+                        placeholder='Set title'
                         onChange={(e) => upateInputValueChangeHandler(e.currentTarget.value)}
                         value={taskInputValue}
                         onBlur={onBlurCallback} />
-<br />
+                    <br />
                     <textarea
                         name='decription'
                         placeholder='there is no description yet'
@@ -120,7 +120,7 @@ export const TaskItem = React.memo(({
                         onBlur={onBlurCallback}
                     />
 
-<br />
+                    <br />
                     Start date: <input
                         name='addDate'
                         type='date'
@@ -128,39 +128,39 @@ export const TaskItem = React.memo(({
                         value={startDateInputValue}
                         onBlur={onBlurCallback}
                     />
-<br />
-                   Deadline: <input
+                    <br />
+                    Deadline: <input
                         name='deadline'
                         type='date'
                         onChange={(e) => setDeadlineInputValue(e.currentTarget.value)}
                         value={deadlineInputValue}
                         onBlur={onBlurCallback}
                     />
-           <br />
+                    <br />
 
                 </>
             ) : (
-                <span onDoubleClick={
-                    (e) => changeEditModeHandler}>
-                    {orderInputValue}.  {title}
-                </span>
+            <span onDoubleClick={
+                (e) => changeEditModeHandler}>
+                {orderInputValue}.  {title}
+            </span>
             )}
 
             <Checkbox
-            disabled={disabledButtonState} 
+                disabled={disabledButtonState}
                 checked={completed}
                 onChange={(e) => changeCheckBoxHandler(e)}
             />
-            <IconButton 
-            disabled={disabledButtonState} 
-            aria-label="delete"
+            <IconButton
+                disabled={disabledButtonState}
+                aria-label="delete"
                 onClick={() => onDeleteHandler(id)}>
                 <Delete />
             </IconButton>
 
-            <IconButton 
-            aria-label="create"
-            disabled={disabledButtonState} 
+            <IconButton
+                aria-label="create"
+                disabled={disabledButtonState}
                 onClick={() => changeEditModeHandler()}
                 onBlur={() => onBlurCallback}
             >
